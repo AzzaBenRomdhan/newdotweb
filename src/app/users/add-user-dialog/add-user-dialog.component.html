@@ -1,0 +1,41 @@
+<h2 mat-dialog-title>Ajouter un utilisateur</h2>
+<mat-dialog-content>
+  <form [formGroup]="userForm">
+    <mat-form-field class="w-100">
+      <mat-label>Username</mat-label>
+      <input matInput formControlName="username" required>
+    </mat-form-field>
+
+    <mat-form-field class="w-100">
+      <mat-label>Password</mat-label>
+      <input matInput type="password" formControlName="password" required>
+    </mat-form-field>
+
+    <mat-form-field class="w-100">
+      <mat-label>Nom</mat-label>
+      <input matInput formControlName="nom" required>
+    </mat-form-field>
+
+    <mat-form-field class="w-100">
+      <mat-label>Prénom</mat-label>
+      <input matInput formControlName="prenom" required>
+    </mat-form-field>
+
+    <mat-form-field class="w-100">
+      <mat-label>Poste</mat-label>
+      <input matInput formControlName="poste" required>
+    </mat-form-field>
+
+    <mat-form-field class="w-100">
+      <mat-label>Status</mat-label>
+      <mat-select formControlName="status">
+        <mat-option *ngFor="let s of statuses" [value]="s">{{ s }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="close()">Annuler</button>
+  <button mat-raised-button color="primary" (click)="saveUser()">Ajouter</button>
+</mat-dialog-actions>

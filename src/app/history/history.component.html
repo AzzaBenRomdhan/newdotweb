@@ -1,0 +1,73 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          
+          <div class="card-header card-header-info">
+            <h4 class="card-title">Historique de navigation</h4>
+            <p class="card-category">Liste des actions effectuées par les utilisateurs</p>
+          </div>
+
+          <div class="card-body">
+
+            <!-- Barre de recherche -->
+<!--             <div class="row mb-3">
+              <div class="col-md-4">
+                <input 
+                  type="text" 
+                  class="form-control" 
+                  placeholder="Rechercher par username ou ID..."
+                  [(ngModel)]="searchValue"
+                  (keyup.enter)="search()">
+              </div>
+              <div class="col-md-2">
+                <button class="btn btn-primary" (click)="search()">Rechercher</button>
+              </div>
+              <div class="col-md-2">
+                <button class="btn btn-secondary" (click)="loadAllHistory()">Afficher tout</button>
+              </div>
+            </div> -->
+
+            <div class="table-responsive">
+              <table class="table">
+                
+                <thead class="text-dark">
+                  <th>Action</th>
+                  <th>IP</th>
+                  <th>Plateforme</th>
+                  <th>Date & Heure</th>
+                  <th>User ID</th>
+                  <th>Username</th>
+                </thead>
+
+                <tbody>
+
+                  <tr *ngFor="let h of histories">
+                    <td>{{ h.action }}</td>
+                    <td>{{ h.ip }}</td>
+                    <td>{{ h.platform }}</td>
+                    <td>{{ h.timestamp | date: 'yyyy-MM-dd HH:mm:ss' }}</td>
+                    <td>{{ h.userId }}</td>
+                    <td>{{ h.username }}</td>
+                  </tr>
+
+                  <!-- Si aucune donnée -->
+                  <tr *ngIf="histories.length === 0">
+                    <td colspan="6" class="text-center text-danger">
+                      Aucun historique trouvé.
+                    </td>
+                  </tr>
+
+                </tbody>
+
+              </table>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

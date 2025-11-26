@@ -1,0 +1,165 @@
+<div class="main-content"> 
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+
+          <div class="card-header card-header-info">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <h4 class="card-title">Documents</h4>
+                <p class="card-category">Liste et filtres des documents</p>
+              </div>
+              <div>
+                <button mat-raised-button color="primary" (click)="resetFilters()">
+                  <i class="material-icons me-1">refresh</i> Réinitialiser
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-body">
+            <div class="row">
+
+              <!-- 🟦 Filtres -->
+              <div class="col-md-3 col-lg-2">
+                <div class="filters-section">
+                  <h5>Filtres <span class="badge bg-primary">{{ filteredDocuments.length }}</span></h5>
+
+                  <mat-form-field appearance="outline" class="w-100 mb-3">
+                    <mat-label>Num document</mat-label>
+                    <input matInput [(ngModel)]="filters.numDocument" (ngModelChange)="applyFilter()">
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline" class="w-100 mb-3">
+                    <mat-label>Pays émetteur</mat-label>
+                    <input matInput [(ngModel)]="filters.issuingCountry" (ngModelChange)="applyFilter()">
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline" class="w-100 mb-3">
+                    <mat-label>Nom</mat-label>
+                    <input matInput [(ngModel)]="filters.lastName" (ngModelChange)="applyFilter()">
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline" class="w-100 mb-3">
+                    <mat-label>Prénom</mat-label>
+                    <input matInput [(ngModel)]="filters.firstName" (ngModelChange)="applyFilter()">
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline" class="w-100 mb-3">
+                    <mat-label>Nationalité</mat-label>
+                    <input matInput [(ngModel)]="filters.nationality" (ngModelChange)="applyFilter()">
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline" class="w-100 mb-3">
+                    <mat-label>Sexe</mat-label>
+                    <mat-select [(ngModel)]="filters.gender" (selectionChange)="applyFilter()">
+                      <mat-option value="">Tous</mat-option>
+                      <mat-option value="M">M</mat-option>
+                      <mat-option value="F">F</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+                </div>
+              </div>
+
+              <!-- 🟩 Tableau -->
+              <div class="col-md-9 col-lg-10">
+                <div class="table-container">
+
+                  <!-- Recherche globale -->
+                  <div class="d-flex justify-content-between align-items-center mb-3">
+                    <mat-form-field appearance="outline" class="search-field w-50">
+                      <mat-label>Recherche globale</mat-label>
+                      <input matInput [(ngModel)]="globalSearch" (ngModelChange)="applyFilter()">
+                      <button matSuffix mat-icon-button>
+                        <i class="material-icons">search</i>
+                      </button>
+                    </mat-form-field>
+
+                    <span class="text-muted">
+                      {{ filteredDocuments.length }} document(s)
+                    </span>
+                  </div>
+
+                  <div class="table-responsive">
+                    <table class="table table-hover">
+
+                      <thead class="table-primary">
+                        <tr>
+                          <th (click)="sortBy('numDocument')" class="sortable">
+                            Num document
+                            <i class="material-icons" *ngIf="sortField==='numDocument'">
+                              {{ sortDirection==='asc' ? 'arrow_upward' : 'arrow_downward' }}
+                            </i>
+                          </th>
+
+                          <th (click)="sortBy('issuingCountry')" class="sortable">
+                            Pays
+                            <i class="material-icons" *ngIf="sortField==='issuingCountry'">
+                              {{ sortDirection==='asc' ? 'arrow_upward' : 'arrow_downward' }}
+                            </i>
+                          </th>
+
+                          <th (click)="sortBy('lastName')" class="sortable">
+                            Nom
+                            <i class="material-icons" *ngIf="sortField==='lastName'">
+                              {{ sortDirection==='asc' ? 'arrow_upward' : 'arrow_downward' }}
+                            </i>
+                          </th>
+
+                          <th (click)="sortBy('firstName')" class="sortable">
+                            Prénom
+                            <i class="material-icons" *ngIf="sortField==='firstName'">
+                              {{ sortDirection==='asc' ? 'arrow_upward' : 'arrow_downward' }}
+                            </i>
+                          </th>
+
+                          <th>Nationalité</th>
+                          <th>Sexe</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+
+                      <tbody>
+
+                        <tr *ngFor="let doc of filteredDocuments">
+                          <td>{{ doc.numDocument }}</td>
+                          <td>{{ doc.issuingCountry }}</td>
+                          <td>{{ doc.lastName }}</td>
+                          <td>{{ doc.firstName }}</td>
+                          <td>{{ doc.nationality }}</td>
+                          <td>{{ doc.gender }}</td>
+                          <td>
+                            <button mat-raised-button color="primary" class="btn btn-sm" (click)="voirDetails(doc)">
+                              <i class="material-icons">visibility</i>
+                            </button>
+                          </td>
+                        </tr>
+
+                        <tr *ngIf="filteredDocuments.length === 0">
+                          <td colspan="7" class="text-center py-4">
+                            <i class="material-icons display-4 text-muted mb-2">search_off</i>
+                            <p class="text-muted">Aucun document trouvé</p>
+                            <button mat-raised-button color="primary" (click)="resetFilters()">
+                              Réinitialiser les filtres
+                            </button>
+                          </td>
+                        </tr>
+
+                      </tbody>
+
+                    </table>
+                  </div>
+
+                </div>
+              </div> 
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

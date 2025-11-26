@@ -1,0 +1,198 @@
+<div class="main-content" *ngIf="document">
+  <div class="container-fluid">
+
+    <div class="row">
+      <div class="col-md-12">
+
+        <div class="card">
+          <div class="card-header card-header-info">
+            <h4 class="card-title">PASSEPORT VISIBLE</h4>
+            <p class="card-category">Informations complètes</p>
+          </div>
+
+          <div class="card-body">
+
+             <div class="col-md-4" *ngIf="document.visiblePasseport">
+                <h6>Passeport Visible</h6>
+                <img class="img-fluid rounded"
+                     [src]="'data:image/jpeg;base64,' + document.visiblePasseport">
+              </div>
+
+              
+            <!-- 🟥 SECTION INFOS PERSONNELLES -->
+            <h5 class="text-danger mt-3">Informations Personnelles</h5>
+            
+            <!-- 🟩 AJOUT IMAGES : FACE + LIVE FACE DANS INFOS PERSONNELLES -->
+            <div class="row mt-3">
+              <div class="col-md-4" *ngIf="document.face">
+                <h6>Face</h6>
+                <img class="img-fluid rounded"
+                     [src]="'data:image/jpeg;base64,' + document.face">
+              </div>
+
+              <div class="col-md-4" *ngIf="document.liveFace">
+                <h6>Live Face</h6>
+                <img class="img-fluid rounded"
+                     [src]="'data:image/jpeg;base64,' + document.liveFace">
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <mat-form-field class="example-full-width">
+                  <mat-label>Prénom</mat-label>
+                  <input matInput [value]="document.firstName" disabled>
+                </mat-form-field>
+              </div>
+
+              <div class="col-md-6">
+                <mat-form-field class="example-full-width">
+                  <mat-label>Nom</mat-label>
+                  <input matInput [value]="document.lastName" disabled>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <mat-form-field class="example-full-width">
+                  <mat-label>Date de naissance</mat-label>
+                  <input matInput [value]="document.dateOfBirth | date" disabled>
+                </mat-form-field>
+              </div>
+
+              <div class="col-md-6">
+                <mat-form-field class="example-full-width">
+                  <mat-label>Genre</mat-label>
+                  <input matInput [value]="document.gender" disabled>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <mat-form-field class="example-full-width">
+                  <mat-label>Numéro du document</mat-label>
+                  <input matInput [value]="document.numDocument" disabled>
+                </mat-form-field>
+              </div>
+
+              <div class="col-md-6">
+                <mat-form-field class="example-full-width">
+                  <mat-label>Date d'expiration</mat-label>
+                  <input matInput [value]="document.dateOfExp | date" disabled>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <mat-form-field class="example-full-width">
+                  <mat-label>Pays émetteur</mat-label>
+                  <input matInput [value]="document.issuingCountry" disabled>
+                </mat-form-field>
+              </div>
+
+              <div class="col-md-6">
+                <mat-form-field class="example-full-width">
+                  <mat-label>Nationalité</mat-label>
+                  <input matInput [value]="document.nationality" disabled>
+                </mat-form-field>
+              </div>
+            </div>
+
+        
+            <!-- 🟦 SECTION RFID -->
+            <h5 class="text-danger mt-4">Informations RFID</h5>
+            
+            <!-- 🟦 AJOUT RFID FACE -->
+            <div class="row mt-3">
+              <div class="col-md-4" *ngIf="document.rfidFace">
+                <h6>RFID Face</h6>
+                <img class="img-fluid rounded"
+                     [src]="'data:image/jpeg;base64,' + document.rfidFace">
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <mat-form-field class="example-full-width">
+                  <mat-label>RFID Prénom</mat-label>
+                  <input matInput [value]="document.rfidFirstName" disabled>
+                </mat-form-field>
+              </div>
+
+              <div class="col-md-6">
+                <mat-form-field class="example-full-width">
+                  <mat-label>RFID Nom</mat-label>
+                  <input matInput [value]="document.rfidLastName" disabled>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <mat-form-field class="example-full-width">
+                  <mat-label>RFID Date de naissance</mat-label>
+                  <input matInput [value]="document.rfidDateOfBirth | date" disabled>
+                </mat-form-field>
+              </div>
+
+              <div class="col-md-6">
+                <mat-form-field class="example-full-width">
+                  <mat-label>RFID Date d'expiration</mat-label>
+                  <input matInput [value]="document.rfidDateOfExp | date" disabled>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <mat-form-field class="example-full-width">
+                  <mat-label>RFID Pays émetteur</mat-label>
+                  <input matInput [value]="document.rfidIssuingCountry" disabled>
+                </mat-form-field>
+              </div>
+
+              <div class="col-md-6">
+                <mat-form-field class="example-full-width">
+                  <mat-label>RFID Nationalité</mat-label>
+                  <input matInput [value]="document.rfidNationality" disabled>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <mat-form-field class="example-full-width">
+                  <mat-label>RFID Genre</mat-label>
+                  <input matInput [value]="document.rfidGender" disabled>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <!-- 🟪 AUTRES IMAGES -->
+            <h5 class="text-danger mt-4">Autres Images</h5>
+
+            <div class="row mt-4">
+
+              <div class="col-md-4" *ngIf="document.frontImage">
+                <h6>Image Frontale</h6>
+                <img class="img-fluid rounded"
+                     [src]="'data:image/jpeg;base64,' + document.frontImage">
+              </div>
+
+              <div class="col-md-4" *ngIf="document.backImage">
+                <h6>Image Arrière</h6>
+                <img class="img-fluid rounded"
+                     [src]="'data:image/jpeg;base64,' + document.backImage">
+              </div>
+            </div>
+
+          </div> <!-- END CARD BODY -->
+
+        </div> <!-- END CARD -->
+      </div>
+    </div>
+  </div>
+</div>
