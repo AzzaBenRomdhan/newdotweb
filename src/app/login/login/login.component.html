@@ -1,5 +1,5 @@
-<div class="main-content d-flex justify-content-center align-items-center"  style="height: 100vh; background-image: url('./assets/img/terminal-d-aeroport.jpg'); 
-            background-size: cover; background-position: center; background-repeat: no-repeat;">
+<div class="main-content d-flex justify-content-center align-items-center login-bg">
+
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-md-4">
@@ -8,10 +8,9 @@
             <img class="img" src="./assets/img/identification-card.png" />
           </div>
           <div class="card-body">
-            <!-- <h6 class="card-category text-gray text-center">CEO / Co-Founder</h6> -->
-            <h4 class="card-title text-center">Bienvenue sur votre espace !</h4>
+            <h4 class="card-title text-center">BORDER DOCS</h4>
             <p class="card-description text-center">
-              Connectez-vous pour accéder à votre tableau de bord.
+              Bienvenue sur votre espace !
             </p> 
             <form>
               <div class="row">
@@ -21,14 +20,27 @@
                   </mat-form-field>
                 </div>
               </div>
+
               <div class="row">
-                <div class="col-md-12"> 
+                <div class="col-md-12">
                   <mat-form-field class="example-full-width">
-                    <input matInput placeholder="mot de passe" [(ngModel)]="password" type="password">
+                    <input matInput 
+                           [type]="hidePassword ? 'password' : 'text'" 
+                           placeholder="Mot de passe" 
+                           [(ngModel)]="password">
+                    <button mat-icon-button 
+                            matSuffix 
+                            type="button" 
+                            (click)="hidePassword = !hidePassword">
+                      <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
                   </mat-form-field>
                 </div>
               </div>
-              <button mat-raised-button type="submit" (click)="login()" class="w-100" color="primary">Se connecter</button>
+
+              <button mat-raised-button type="submit" (click)="login()" class="w-100" color="primary">
+                Se connecter
+              </button>
             </form>
           </div>
         </div>

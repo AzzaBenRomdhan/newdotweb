@@ -1,4 +1,7 @@
-<div class="main-content">
+<div class="main-content position-relative">
+    <div *ngIf="isLoading" class="overlay-spinner">
+    <mat-spinner diameter="70" strokeWidth="6" color="primary"></mat-spinner>
+  </div>
   <div class="container-fluid">
     <div class="row">
       <div class="col-lg-12 col-md-12">
@@ -68,7 +71,7 @@
                       matTooltip="Edit User"
                       [matTooltipPosition]="'above'"
                       class="btn btn-light btn-link btn-sm btn-just-icon"
-                      (click)="editUser(u)"
+                      (click)="editUserDialog(u, u.usernameOrId)"
                     >
                       <i class="material-icons">edit</i>
                     </button>

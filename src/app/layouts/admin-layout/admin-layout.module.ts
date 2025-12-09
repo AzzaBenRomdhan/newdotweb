@@ -17,6 +17,8 @@ import {MatRippleModule} from '@angular/material/core';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatSelectModule} from '@angular/material/select';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { DocumentsComponent } from 'app/documents/documents.component';
 import { DocumentDetailsComponent } from 'app/documents/document-details/document-details.component';
 import { UsersComponent } from 'app/users/users.component';
@@ -24,6 +26,15 @@ import { AddUserDialogComponent } from 'app/users/add-user-dialog/add-user-dialo
 import { ConfirmDialogComponent } from 'app/shared/confirm-dialog/confirm-dialog.component';
 import { HistoryComponent } from 'app/history/history.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MagnifierComponent } from 'app/magnifier/magnifier.component';
+import { EditProfileComponent } from 'app/users/edit-profile/edit-profile.component';
+import { EditUserComponent } from 'app/users/edit-user/edit-user.component';
+import {MatExpansionModule} from '@angular/material/expansion';
+import { MatIconModule } from '@angular/material/icon';
+import { MatChipsModule } from '@angular/material/chips';
+import { NgChartsModule } from 'ng2-charts';
+import { NgApexchartsModule } from 'ng-apexcharts';
 
 @NgModule({
   imports: [
@@ -37,7 +48,15 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatInputModule,
     MatSelectModule,
     MatTooltipModule,
-    MatDialogModule
+    MatDialogModule,
+    MatPaginatorModule,
+    MatProgressBarModule,
+    MatProgressSpinnerModule,
+    MatExpansionModule,
+    MatIconModule,
+    MatChipsModule,
+    NgChartsModule,
+NgApexchartsModule
   ],
   declarations: [
     DashboardComponent,
@@ -54,7 +73,9 @@ import { MatDialogModule } from '@angular/material/dialog';
     AddUserDialogComponent,
     ConfirmDialogComponent,
     HistoryComponent,
-    
+    MagnifierComponent,
+    EditProfileComponent,
+    EditUserComponent
     
   ]
 })

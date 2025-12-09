@@ -1,0 +1,24 @@
+<div
+  class="magnifier"
+  (pointerenter)="onPointerEnter()"
+  (pointerleave)="onPointerLeave()"
+  (pointermove)="onPointerMove($event)"
+  (touchstart)="onPointerEnter(); onPointerMove($event)"
+  (touchmove)="onPointerMove($event)"
+  (touchend)="onPointerLeave()"
+>
+  <img #img [src]="src" alt=""/>
+  <div
+    class="lens"
+    [class.visible]="showLens"
+    [ngStyle]="{
+      width: lensSize + 'px',
+      height: lensSize + 'px',
+      left: lensLeft + 'px',
+      top: lensTop + 'px',
+      backgroundImage: 'url(' + src + ')',
+      backgroundSize: bgSize,
+      backgroundPosition: bgPos
+    }"
+  ></div>
+</div>

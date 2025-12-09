@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 export interface User {
-  id?: number;
+  id?: string;
   username: string;
   password?: string;
   nom?: string;
@@ -17,7 +17,8 @@ export interface User {
 })
 export class UsersService {
 
-private API_URL = 'http://localhost:9090/users';
+private API_URL = 'http://51.178.87.12:8097/users';
+
 
   constructor(private http: HttpClient) {}
 

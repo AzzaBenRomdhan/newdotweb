@@ -17,7 +17,7 @@ export interface UserHistory {
 })
 export class HistoryService {
 
-  private API_URL = 'http://localhost:9090/history';
+  private API_URL = 'http://51.178.87.12:8097/history';
 
   constructor(private http: HttpClient) {}
 
@@ -31,12 +31,12 @@ export class HistoryService {
 
   // Historique d'un utilisateur
   getUserHistory(usernameOrId: string): Observable<UserHistory[]> {
-    return this.http.get<UserHistory[]>(`${this.API_URL}/${usernameOrId}`, this.getHeaders());
+    return this.http.get<UserHistory[]>(`${this.API_URL}/${usernameOrId}`);
   }
 
   // Historique global
   getAllHistory(): Observable<UserHistory[]> {
-    return this.http.get<UserHistory[]>(this.API_URL, this.getHeaders());
+    return this.http.get<UserHistory[]>(this.API_URL);
   }
 
 }

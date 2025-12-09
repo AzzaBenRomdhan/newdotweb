@@ -1,94 +1,137 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { DocumentService } from 'app/services/documents/documents.service';
-interface Document {
-  numDocument: string;
-  issuingCountry: string;
-  lastName: string;
-  firstName: string;
-  nationality: string;
-  gender: string;
-}
+import { Subject } from 'rxjs';
+import { filter, take, takeUntil } from 'rxjs/operators';
+import { Document, DocumentService } from 'app/services/documents/documents.service';
+import { ConfirmDialogComponent } from 'app/shared/confirm-dialog/confirm-dialog.component';
+
 @Component({
   selector: 'app-documents',
   templateUrl: './documents.component.html',
   styleUrls: ['./documents.component.scss']
 })
-export class DocumentsComponent implements OnInit {
+export class DocumentsComponent implements OnInit, OnDestroy {
 
-  documents: any[] = [];        // Données originales
-  filteredDocuments: any[] = []; // Données filtrées affichées
+  private destroy$ = new Subject<void>();
+
+  documents: Document[] = [];
+  filteredDocuments: Document[] = [];
+  pagedDocuments: Document[] = [];
+
+  isLoading = true;
+  errorMessage = '';
 
   globalSearch = '';
-
   filters = {
+    dateAjout: '',
+    typeDocument: '',
     numDocument: '',
     issuingCountry: '',
-    lastName: '',
-    firstName: '',
     nationality: '',
-    gender: ''
+    username: '',
+    poste: '',
+    natureDoc: ''
   };
 
   sortField: string = '';
   sortDirection: 'asc' | 'desc' = 'asc';
 
+  pageSize = 10;
+  currentPage = 0;
+
+  constructor(
+    private documentService: DocumentService,
+    private router: Router,
+    private dialog: MatDialog
+  ) {}
+
   ngOnInit(): void {
-    this.loadDocuments();
+    // 1) Déclenche le fetch si nécessaire (sinon récupère le cache)
+    this.isLoading = true;
+    this.documentService.fetchAll().pipe(take(1)).subscribe({
+      next: () => (this.isLoading = false),
+      error: () => (this.isLoading = false)
+    });
+
+    // 2) S’abonner au flux de documents cache
+    this.documentService.docs$
+      .pipe(
+        filter((docs): docs is Document[] => Array.isArray(docs)),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(docs => {
+        this.documents = docs;
+        this.applyFilter();
+      });
   }
-  constructor(private documentService: DocumentService, private router: Router) {}
 
- loadDocuments() {
-  this.documentService.getAllDocuments().subscribe({
-    next: (res) => {
-      this.documents = res;  // ← Les données récupérées depuis ton backend
-      this.applyFilter();     // ← On applique les filtres automatiquement
-    },
-    error: (err) => {
-      console.error("Erreur lors de la récupération des documents :", err);
-    }
-  });
-}
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 
-  // 👁️ Voir détails
+  // Naviguer vers détails
   voirDetails(doc: Document) {
     this.router.navigate(['/document-Details', doc.numDocument]);
-    console.log('redirigé');
   }
+  // Appliquer filtres + recherche globale (inchangé)
   applyFilter() {
     const search = this.globalSearch.toLowerCase();
 
     this.filteredDocuments = this.documents.filter(doc => {
+      const matchSearch = (
+        (doc.typeDoc ?? '') +
+        (doc.numDocument ?? '') +
+        (doc.issuingCountry ?? '') +
+        (doc.username ?? '') +
+        (doc.nationality ?? '') +
+        (doc.poste ?? '') +
+        (doc.natureDoc ?? '')
+      ).toLowerCase().includes(search);
 
-      const matchesSearch =
-        (doc.numDocument + doc.issuingCountry + doc.lastName + doc.firstName + doc.nationality + doc.gender)
-          .toLowerCase()
-          .includes(search);
+      let matchType = true;
+      if (this.filters.typeDocument) {
+        matchType = this.filters.typeDocument === 'P-GROUP'
+          ? ['P', 'PD', 'PS'].includes(doc.typeDoc)
+          : doc.typeDoc === this.filters.typeDocument;
+      }
+
+      let matchDate = true;
+      if (this.filters.dateAjout) {
+        matchDate = new Date(doc.dateAjout).toDateString() === new Date(this.filters.dateAjout).toDateString();
+      }
 
       return (
-        matchesSearch &&
-        (!this.filters.numDocument || doc.numDocument.includes(this.filters.numDocument)) &&
-        (!this.filters.issuingCountry || doc.issuingCountry.includes(this.filters.issuingCountry)) &&
-        (!this.filters.lastName || doc.lastName.toLowerCase().includes(this.filters.lastName.toLowerCase())) &&
-        (!this.filters.firstName || doc.firstName.toLowerCase().includes(this.filters.firstName.toLowerCase())) &&
-        (!this.filters.nationality || doc.nationality.toLowerCase().includes(this.filters.nationality.toLowerCase())) &&
-        (!this.filters.gender || doc.gender === this.filters.gender)
+        matchSearch &&
+        matchType &&
+        matchDate &&
+        (!this.filters.numDocument || (doc.numDocument ?? '').toLowerCase().includes(this.filters.numDocument.toLowerCase())) &&
+        (!this.filters.natureDoc || (doc.natureDoc ?? '').toLowerCase().includes(this.filters.natureDoc.toLowerCase())) &&
+        (!this.filters.poste || (doc.poste ?? '').toLowerCase().includes(this.filters.poste.toLowerCase())) &&
+        (!this.filters.issuingCountry || (doc.issuingCountry ?? '').toLowerCase().includes(this.filters.issuingCountry.toLowerCase())) &&
+        (!this.filters.username || (doc.username ?? '').toLowerCase().includes(this.filters.username.toLowerCase())) &&
+        (!this.filters.nationality || (doc.nationality ?? '').toLowerCase().includes(this.filters.nationality.toLowerCase()))
       );
     });
 
     this.sortResults();
+    this.updatePagedDocuments();
   }
 
   resetFilters() {
     this.filters = {
+      dateAjout: '',
+      typeDocument: '',
       numDocument: '',
       issuingCountry: '',
-      lastName: '',
-      firstName: '',
       nationality: '',
-      gender: ''
+      username: '',
+      poste: '',
+      natureDoc: ''
     };
     this.globalSearch = '';
+    this.currentPage = 0;
     this.applyFilter();
   }
 
@@ -100,18 +143,62 @@ export class DocumentsComponent implements OnInit {
       this.sortDirection = 'asc';
     }
     this.sortResults();
+    this.updatePagedDocuments();
   }
 
   sortResults() {
     if (!this.sortField) return;
-
     this.filteredDocuments.sort((a, b) => {
-      const valA = a[this.sortField];
-      const valB = b[this.sortField];
-
-      return this.sortDirection === 'asc'
-        ? valA.localeCompare(valB)
-        : valB.localeCompare(valA);
+      const A = (a[this.sortField] ?? '').toString().toLowerCase();
+      const B = (b[this.sortField] ?? '').toString().toLowerCase();
+      return this.sortDirection === 'asc' ? A.localeCompare(B) : B.localeCompare(A);
     });
+  }
+
+  updatePagedDocuments() {
+    const start = this.currentPage * this.pageSize;
+    this.pagedDocuments = this.filteredDocuments.slice(start, start + this.pageSize);
+  }
+
+  onPageChange(event: any) {
+    this.pageSize = event.pageSize;
+    this.currentPage = event.pageIndex;
+    this.updatePagedDocuments();
+  }
+
+  deleteDoc(id: string): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '350px',
+      data: { message: 'Êtes-vous sûr de vouloir supprimer ce document ?' }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.documentService.deleteDocument(id).subscribe({
+          next: () => {
+            // Plus besoin de manipuler manuellement les tableaux ici :
+            // docs$ réémettra automatiquement la liste mise à jour,
+            // ce qui relancera applyFilter() via l’abonnement.
+          },
+          error: err => {
+            console.error(err);
+            this.errorMessage = 'Erreur lors de la suppression';
+          }
+        });
+      }
+    });
+  }
+
+  downloadPdf(doc: any) {
+    if (!doc.pdf) {
+      alert("Aucun PDF disponible pour ce document.");
+      return;
+    }
+    const byteCharacters = atob(doc.pdf);
+    const byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) byteNumbers[i] = byteCharacters.charCodeAt(i);
+    const byteArray = new Uint8Array(byteNumbers);
+    const blob = new Blob([byteArray], { type: 'application/pdf' });
+    window.open(URL.createObjectURL(blob), '_blank');
   }
 }

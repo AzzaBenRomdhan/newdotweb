@@ -13198,7 +13198,7 @@ h2.title {
   .sidebar .nav .nav-item.active-pro {
     position: absolute;
     width: 100%;
-    bottom: 13px; } }
+    bottom: 5px; } }
 
 .fixed-plugin .dropdown .dropdown-menu {
   border-radius: 10px; }
@@ -14324,7 +14324,8 @@ a[aria-expanded="true"] .caret,
 @media screen and (max-width: 991px) {
   .off-canvas-sidebar .page-header > .container {
     padding-top: 70px;
-    padding-bottom: 200px; } }
+    padding-bottom: 200px; } 
+  }
 
 .btn.btn-facebook {
   color: #ffffff;
@@ -15102,7 +15103,8 @@ a[aria-expanded="true"] .caret,
     float: none; }
   .navbar-collapse .nav p {
     font-size: 1rem;
-    margin: 0; } }
+    margin: 0; } 
+}
 
 @media (min-width: 992px) {
   .main-panel .navbar .navbar-collapse .navbar-nav .nav-item .nav-link p {

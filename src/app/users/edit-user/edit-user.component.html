@@ -1,0 +1,57 @@
+<h2 mat-dialog-title>Modifier un utilisateur</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="userForm">
+
+    <!-- Username -->
+    <mat-form-field class="w-100" appearance="outline">
+      <mat-label>Username</mat-label>
+      <input matInput formControlName="username" required>
+      <mat-error *ngIf="userForm.get('username')?.hasError('required')">
+        Le nom d'utilisateur est obligatoire.
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Nom -->
+    <mat-form-field class="w-100" appearance="outline">
+      <mat-label>Nom</mat-label>
+      <input matInput formControlName="nom">
+    </mat-form-field>
+
+    <!-- Préom -->
+    <mat-form-field class="w-100" appearance="outline">
+      <mat-label>Prénom</mat-label>
+      <input matInput formControlName="prenom">
+    </mat-form-field>
+
+    <!-- Poste -->
+    <mat-form-field class="w-100" appearance="outline">
+      <mat-label>Poste</mat-label>
+      <input matInput formControlName="poste">
+    </mat-form-field>
+
+    <!-- Status -->
+    <mat-form-field class="w-100" appearance="outline">
+      <mat-label>Status</mat-label>
+      <mat-select formControlName="status">
+        <mat-option *ngFor="let s of statuses" [value]="s">{{ s }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+     <!-- User role -->
+    <mat-form-field class="w-100" appearance="outline">
+      <mat-label>Rôle</mat-label>
+      <mat-select formControlName="appUserRole">
+        <mat-option *ngFor="let r of roles" [value]="r">{{ r }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="close()">Annuler</button>
+  <button mat-raised-button color="primary" [disabled]="userForm.invalid" (click)="editUser()">
+    Modifier
+  </button>
+</mat-dialog-actions>

@@ -1,4 +1,7 @@
-<div class="main-content">
+<div class="main-content position-relative">
+    <div *ngIf="isLoading" class="overlay-spinner">
+    <mat-spinner diameter="70" strokeWidth="6" color="primary"></mat-spinner>
+  </div>
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-12">
@@ -12,22 +15,35 @@
           <div class="card-body">
 
             <!-- Barre de recherche -->
-<!--             <div class="row mb-3">
-              <div class="col-md-4">
-                <input 
-                  type="text" 
-                  class="form-control" 
-                  placeholder="Rechercher par username ou ID..."
-                  [(ngModel)]="searchValue"
-                  (keyup.enter)="search()">
+            <div class="row mb-3 align-items-end">
+
+              <!-- Champ de recherche -->
+              <div class="col-md-5">
+                <mat-form-field appearance="outline" class="search-field w-100">
+                  <mat-label>Chercher par User ID ou Username...</mat-label>
+
+                  <input 
+                    matInput 
+                    [(ngModel)]="searchValue" 
+                    (input)="search()"
+                  >
+
+                  <!-- Icône intégrée -->
+                  <button 
+                    mat-icon-button 
+                    matSuffix 
+                    (click)="search()" 
+                    class="search-icon"
+                  >
+                    <mat-icon>search</mat-icon>
+                  </button>
+
+                </mat-form-field>
               </div>
-              <div class="col-md-2">
-                <button class="btn btn-primary" (click)="search()">Rechercher</button>
-              </div>
-              <div class="col-md-2">
-                <button class="btn btn-secondary" (click)="loadAllHistory()">Afficher tout</button>
-              </div>
-            </div> -->
+
+            </div>
+
+
 
             <div class="table-responsive">
               <table class="table">
@@ -43,7 +59,7 @@
 
                 <tbody>
 
-                  <tr *ngFor="let h of histories">
+                  <tr *ngFor="let h of paginatedHistories">
                     <td>{{ h.action }}</td>
                     <td>{{ h.ip }}</td>
                     <td>{{ h.platform }}</td>
@@ -52,17 +68,18 @@
                     <td>{{ h.username }}</td>
                   </tr>
 
-                  <!-- Si aucune donnée -->
-                  <tr *ngIf="histories.length === 0">
-                    <td colspan="6" class="text-center text-danger">
-                      Aucun historique trouvé.
-                    </td>
-                  </tr>
-
                 </tbody>
 
               </table>
             </div>
+
+              <!-- Pagination -->
+              <mat-paginator
+                [length]="histories.length"
+                [pageSize]="pageSize"
+                [pageSizeOptions]="pageSizeOptions"
+                (page)="onPageChange($event)">
+              </mat-paginator>
 
           </div>
 

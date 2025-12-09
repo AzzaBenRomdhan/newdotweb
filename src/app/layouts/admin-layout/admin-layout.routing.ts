@@ -12,6 +12,7 @@ import { DocumentDetailsComponent } from 'app/documents/document-details/documen
 import { UsersComponent } from 'app/users/users.component';
 import { DocumentsComponent } from 'app/documents/documents.component';
 import { HistoryComponent } from 'app/history/history.component';
+import { EditProfileComponent } from 'app/users/edit-profile/edit-profile.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard',      component: DashboardComponent },
@@ -19,6 +20,8 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'document-Details/:numDocument', component: DocumentDetailsComponent },
     { path: 'history',        component: HistoryComponent },
     { path: 'users',        component: UsersComponent },
+    { path: 'edit-profile',        component: EditProfileComponent },
+
     { path: 'user-profile',   component: UserProfileComponent },
     { path: 'table-list',     component: TableListComponent },
     { path: 'typography',     component: TypographyComponent },

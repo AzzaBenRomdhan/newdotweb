@@ -1,41 +1,87 @@
 <h2 mat-dialog-title>Ajouter un utilisateur</h2>
+
 <mat-dialog-content>
   <form [formGroup]="userForm">
-    <mat-form-field class="w-100">
+
+    <!-- Username -->
+    <mat-form-field class="w-100 mb-2" appearance="outline">
       <mat-label>Username</mat-label>
       <input matInput formControlName="username" required>
+      <mat-error *ngIf="userForm.get('username')?.hasError('required')">
+        Le nom d'utilisateur est obligatoire.
+      </mat-error>
+      <mat-error *ngIf="userForm.get('username')?.hasError('minlength')">
+        Minimum 4 caractères.
+      </mat-error>
     </mat-form-field>
 
-    <mat-form-field class="w-100">
+    <!-- Password -->
+    <mat-form-field class="w-100 mb-2" appearance="outline">
       <mat-label>Password</mat-label>
       <input matInput type="password" formControlName="password" required>
+      <mat-error *ngIf="userForm.get('password')?.hasError('required')">
+        Le mot de passe est obligatoire.
+      </mat-error>
+      <mat-error *ngIf="userForm.get('password')?.hasError('minlength')">
+        Minimum 6 caractères.
+      </mat-error>
     </mat-form-field>
 
-    <mat-form-field class="w-100">
+    <!-- Nom -->
+    <mat-form-field class="w-100 mb-2" appearance="outline">
       <mat-label>Nom</mat-label>
-      <input matInput formControlName="nom" required>
+      <input matInput formControlName="nom">
+      <mat-error *ngIf="userForm.get('nom')?.hasError('required')">
+        Le nom est obligatoire.
+      </mat-error>
     </mat-form-field>
 
-    <mat-form-field class="w-100">
+    <!-- Préom -->
+    <mat-form-field class="w-100 mb-2" appearance="outline">
       <mat-label>Prénom</mat-label>
-      <input matInput formControlName="prenom" required>
+      <input matInput formControlName="prenom">
+      <mat-error *ngIf="userForm.get('prenom')?.hasError('required')">
+        Le prénom est obligatoire.
+      </mat-error>
     </mat-form-field>
 
-    <mat-form-field class="w-100">
+    <!-- Poste -->
+    <mat-form-field class="w-100 mb-2" appearance="outline">
       <mat-label>Poste</mat-label>
-      <input matInput formControlName="poste" required>
+      <input matInput formControlName="poste">
+      <mat-error *ngIf="userForm.get('poste')?.hasError('required')">
+        Le poste est obligatoire.
+      </mat-error>
     </mat-form-field>
 
-    <mat-form-field class="w-100">
+    <!-- Status -->
+    <mat-form-field class="w-100 mb-2" appearance="outline">
       <mat-label>Status</mat-label>
       <mat-select formControlName="status">
         <mat-option *ngFor="let s of statuses" [value]="s">{{ s }}</mat-option>
       </mat-select>
+      <mat-error *ngIf="userForm.get('status')?.hasError('required')">
+        Le statut est obligatoire.
+      </mat-error>
     </mat-form-field>
+
+     <!-- User role -->
+    <mat-form-field class="w-100 mb-2" appearance="outline">
+      <mat-label>Rôle</mat-label>
+      <mat-select formControlName="appUserRole">
+        <mat-option *ngFor="let r of roles" [value]="r">{{ r }}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="userForm.get('appUserRole')?.hasError('required')">
+        Le rôle utilisateur est obligatoire.
+      </mat-error>
+    </mat-form-field>
+
   </form>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
   <button mat-button (click)="close()">Annuler</button>
-  <button mat-raised-button color="primary" (click)="saveUser()">Ajouter</button>
+  <button mat-raised-button color="primary" [disabled]="userForm.invalid" (click)="saveUser()">
+    Ajouter
+  </button>
 </mat-dialog-actions>

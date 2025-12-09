@@ -1,0 +1,95 @@
+.main-content {
+  position: relative; // nécessaire pour que l'overlay soit limité à ce conteneur
+}
+
+.overlay-spinner {
+  position: absolute;            // relatif au parent
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.6);  // semi-transparent
+  z-index: 999;                  // au-dessus du contenu du parent
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: all;           // bloque les clics sur le contenu sous l'overlay
+}
+.same-img {
+  width: 150px;      /* largeur identique */
+  height: 170px;     /* hauteur identique */
+  object-fit: cover; /* recadre proprement sans déformer */
+  border-radius: 10px;
+}
+.large-img {
+  width: 400px;       /* largeur plus grande */
+  height: 500px;      /* hauteur correspondante */
+  object-fit: cover;  /* recadrage propre sans déformer */
+  margin: 0 auto;     /* centre horizontalement */
+  border-radius: 10px;
+}
+#rfidImg {
+  width: 150px;      /* largeur identique */
+  height: 170px;     /* hauteur identique */
+  object-fit: cover; /* recadre proprement sans déformer */
+  border-radius: 10px;
+}
+
+.mat-form-field + .mat-form-field {
+  margin-left: 8px;
+}
+
+/* Boîte passeport / ID / face */
+.passport-img-box,
+.fixed-img {
+  width: 100%;             /* prend toute la largeur disponible */
+  max-width: 400px;        /* limite la taille maximale */
+  height: auto;            /* hauteur automatique pour garder ratio */
+  margin: 0 auto;          /* centre horizontalement */
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #fafafa;
+}
+
+.passport-img-box img,
+.fixed-img app-magnifier img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;     /* garde le ratio réel */
+}
+
+/* Strip horizontal d’images */
+.image-strip {
+  display: flex;
+  flex-wrap: wrap;           /* permet de passer à la ligne si écran trop petit */
+  gap: 20px;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.img-box {
+  flex: 1 1 180px;          /* min 180px, grandit selon la largeur dispo */
+  max-width: 300px;         /* limite la taille */
+  text-align: center;
+}
+
+/* Titres centrés */
+.img-box h4 {
+  font-size: 1rem;
+  margin-bottom: 5px;
+}
+
+/* Responsive pour mobile */
+@media (max-width: 767px) {
+  .passport-img-box,
+  .fixed-img {
+    max-width: 100%;         /* plein écran sur mobile */
+  }
+
+  .img-box {
+    flex: 1 1 100%;          /* chaque image prend toute la largeur sur mobile */
+  }
+}

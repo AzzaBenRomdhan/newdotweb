@@ -1,193 +1,254 @@
-<div class="main-content" *ngIf="document">
+<div class="main-content">
   <div class="container-fluid">
-
+    <div *ngIf="isLoading" class="overlay-spinner">
+        <mat-spinner diameter="70" strokeWidth="6" color="primary"></mat-spinner>
+    </div>
     <div class="row">
-      <div class="col-md-12">
+      <div class="col-md-12 ml-auto mr-auto">
 
         <div class="card">
           <div class="card-header card-header-info">
-            <h4 class="card-title">PASSEPORT VISIBLE</h4>
-            <p class="card-category">Informations complètes</p>
+            <h4 class="card-title">Détails du document</h4>
           </div>
 
-          <div class="card-body">
+          <div class="card-body" *ngIf="document && !isLoading">
+            <button mat-raised-button style="color: black;" class="mb-3" (click)="goBack()">
+              <mat-icon>arrow_back</mat-icon>
+              Retour
+            </button>
+            <!-- ⭐ Passeport -->
+            <mat-accordion class="accordion-spacing" *ngIf="document.typeDoc === 'P' || document.typeDoc === 'PS' || document.typeDoc === 'PD'">
+              <mat-expansion-panel hideToggle expanded>
+                <mat-expansion-panel-header>
+                  <mat-panel-title class="panel-title-custom">
+                    Images du passeport
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <!-- Ligne horizontale des infos -->
+                <div class="table-responsive">
+                  <table class="table table-bordered">
 
-             <div class="col-md-4" *ngIf="document.visiblePasseport">
-                <h6>Passeport Visible</h6>
-                <img class="img-fluid rounded"
-                     [src]="'data:image/jpeg;base64,' + document.visiblePasseport">
-              </div>
+                    <!-- Ligne 1 : Infos texte -->
+                    <tr>
+                      <td><strong>Ajouté le :</strong> {{ document.dateAjout }} {{ document.heureAjout }}</td>
+                      <td><strong>Ajouté par :</strong> {{ document.username }}</td>
+                      <td><strong>Code Pays :</strong> {{ document.issuingCountry }}</td>
+                      <td>
+                        <strong>Type du passeport :</strong>
+                        <span [ngSwitch]="document.typeDoc">
+                          <span *ngSwitchCase="'P'">Passeport ordinaire</span>
+                          <span *ngSwitchCase="'PS'">Passeport de service</span>
+                          <span *ngSwitchCase="'PD'">Passeport diplomatique</span>
+                          <span *ngSwitchDefault>Inconnu</span>
+                        </span>
+                      </td>
+                    </tr>
 
-              
-            <!-- 🟥 SECTION INFOS PERSONNELLES -->
-            <h5 class="text-danger mt-3">Informations Personnelles</h5>
-            
-            <!-- 🟩 AJOUT IMAGES : FACE + LIVE FACE DANS INFOS PERSONNELLES -->
-            <div class="row mt-3">
-              <div class="col-md-4" *ngIf="document.face">
-                <h6>Face</h6>
-                <img class="img-fluid rounded"
-                     [src]="'data:image/jpeg;base64,' + document.face">
-              </div>
+                    <!-- Ligne 2 : Images -->
+                    <tr>
+                      <td colspan="4">
+                        <div class="row text-center">
 
-              <div class="col-md-4" *ngIf="document.liveFace">
-                <h6>Live Face</h6>
-                <img class="img-fluid rounded"
-                     [src]="'data:image/jpeg;base64,' + document.liveFace">
-              </div>
-            </div>
+                          <div class="col-md-4 col-12" *ngIf="passportImages.passportImageUrl">
+                            <h4>Photo du document</h4>
+                            <div class="passport-img-box">
+                              <app-magnifier
+                                [src]="'data:image/jpeg;base64,' + document.visiblePasseport"
+                                [zoom]="2.5"
+                                [lensSize]="180">
+                              </app-magnifier>
+                            </div>
+                          </div>
 
-            <div class="row">
-              <div class="col-md-6">
-                <mat-form-field class="example-full-width">
-                  <mat-label>Prénom</mat-label>
-                  <input matInput [value]="document.firstName" disabled>
-                </mat-form-field>
-              </div>
+                          <div class="col-md-4 col-12" *ngIf="passportImages.passportImageUrl">
+                            <h4>Spécimen du passeport</h4>
+                            <div class="passport-img-box">
+                              <app-magnifier
+                                [src]="passportImages.passportImageUrl"
+                                [zoom]="2.5"
+                                [lensSize]="180">
+                              </app-magnifier>
+                            </div>
+                          </div>
 
-              <div class="col-md-6">
-                <mat-form-field class="example-full-width">
-                  <mat-label>Nom</mat-label>
-                  <input matInput [value]="document.lastName" disabled>
-                </mat-form-field>
-              </div>
-            </div>
+                          <div class="col-md-4 col-12" *ngIf="passportImages.uvImageUrl">
+                            <h4>Spécimen d'image UV</h4>
+                            <div class="passport-img-box">
+                              <app-magnifier
+                                [src]="passportImages.uvImageUrl"
+                                [zoom]="2.5"
+                                [lensSize]="180">
+                              </app-magnifier>
+                            </div>
+                          </div>
 
-            <div class="row">
-              <div class="col-md-6">
-                <mat-form-field class="example-full-width">
-                  <mat-label>Date de naissance</mat-label>
-                  <input matInput [value]="document.dateOfBirth | date" disabled>
-                </mat-form-field>
-              </div>
+                        </div>
+                      </td>
+                    </tr>
 
-              <div class="col-md-6">
-                <mat-form-field class="example-full-width">
-                  <mat-label>Genre</mat-label>
-                  <input matInput [value]="document.gender" disabled>
-                </mat-form-field>
-              </div>
-            </div>
+                  </table>
+                </div>
+              </mat-expansion-panel>
+            </mat-accordion>
 
-            <div class="row">
-              <div class="col-md-6">
-                <mat-form-field class="example-full-width">
-                  <mat-label>Numéro du document</mat-label>
-                  <input matInput [value]="document.numDocument" disabled>
-                </mat-form-field>
-              </div>
+            <!-- ⭐ ID Card Images -->
+            <mat-accordion class="accordion-spacing" *ngIf="document.frontImage && document.backImage">
+              <mat-expansion-panel hideToggle expanded>
+                <mat-expansion-panel-header>
+                  <mat-panel-title class="panel-title-custom">
+                    ID Card Images
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                 <div class="table-responsive">
+                  <table class="table table-bordered">
 
-              <div class="col-md-6">
-                <mat-form-field class="example-full-width">
-                  <mat-label>Date d'expiration</mat-label>
-                  <input matInput [value]="document.dateOfExp | date" disabled>
-                </mat-form-field>
-              </div>
-            </div>
+                    <!-- Ligne 1 : Infos texte -->
+                    <tr>
+                      <td><strong>Ajouté le :</strong> {{ document.dateAjout }} {{ document.heureAjout }}</td>
+                      <td><strong>Ajouté par :</strong> {{ document.username }}</td>
+                    </tr>
 
-            <div class="row">
-              <div class="col-md-6">
-                <mat-form-field class="example-full-width">
-                  <mat-label>Pays émetteur</mat-label>
-                  <input matInput [value]="document.issuingCountry" disabled>
-                </mat-form-field>
-              </div>
+                    <!-- Ligne 2 : Images -->
+                    <tr>
+                      <!-- Face avant -->
+                      <td *ngIf="document.frontImage">
+                        <h4 class="text-center">Face avant</h4>
+                        <div class="passport-img-box text-center">
+                          <app-magnifier
+                            [src]="'data:image/jpeg;base64,' + document.frontImage"
+                            [zoom]="2.5"
+                            [lensSize]="180">
+                          </app-magnifier>
+                        </div>
+                      </td>
 
-              <div class="col-md-6">
-                <mat-form-field class="example-full-width">
-                  <mat-label>Nationalité</mat-label>
-                  <input matInput [value]="document.nationality" disabled>
-                </mat-form-field>
-              </div>
-            </div>
+                      <!-- Face arrière -->
+                      <td *ngIf="document.backImage">
+                        <h4 class="text-center">Face arrière</h4>
+                        <div class="passport-img-box text-center">
+                          <app-magnifier
+                            [src]="'data:image/jpeg;base64,' + document.backImage"
+                            [zoom]="2.5"
+                            [lensSize]="180">
+                          </app-magnifier>
+                        </div>
+                      </td>
+                    </tr>
 
-        
-            <!-- 🟦 SECTION RFID -->
-            <h5 class="text-danger mt-4">Informations RFID</h5>
-            
-            <!-- 🟦 AJOUT RFID FACE -->
-            <div class="row mt-3">
-              <div class="col-md-4" *ngIf="document.rfidFace">
-                <h6>RFID Face</h6>
-                <img class="img-fluid rounded"
-                     [src]="'data:image/jpeg;base64,' + document.rfidFace">
-              </div>
-            </div>
+                  </table>
+                </div>                      
+              </mat-expansion-panel>
+            </mat-accordion>
 
-            <div class="row">
-              <div class="col-md-6">
-                <mat-form-field class="example-full-width">
-                  <mat-label>RFID Prénom</mat-label>
-                  <input matInput [value]="document.rfidFirstName" disabled>
-                </mat-form-field>
-              </div>
+            <!-- ⭐ Barre d’images -->
+            <mat-accordion class="accordion-spacing" *ngIf="document.face || document.liveFace || document.rfidFace">
+              <mat-expansion-panel hideToggle expanded>
+                <mat-expansion-panel-header>
+                  <mat-panel-title class="panel-title-custom">
+                    Face Images
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
 
-              <div class="col-md-6">
-                <mat-form-field class="example-full-width">
-                  <mat-label>RFID Nom</mat-label>
-                  <input matInput [value]="document.rfidLastName" disabled>
-                </mat-form-field>
-              </div>
-            </div>
+                <div class="image-strip mt-3 d-flex justify-content-center">
+                  <div class="img-box" *ngIf="document.face">
+                    <h4>Portrait</h4>
+                    <div class="fixed-img">
+                      <app-magnifier
+                        [src]="'data:image/jpeg;base64,' + document.face"
+                        [zoom]="2.5"
+                        [lensSize]="180">
+                      </app-magnifier>
+                    </div>
+                  </div>
 
-            <div class="row">
-              <div class="col-md-6">
-                <mat-form-field class="example-full-width">
-                  <mat-label>RFID Date de naissance</mat-label>
-                  <input matInput [value]="document.rfidDateOfBirth | date" disabled>
-                </mat-form-field>
-              </div>
+                  <div class="img-box" *ngIf="document.liveFace">
+                    <h4>Photo live</h4>
+                    <div class="fixed-img">
+                      <app-magnifier
+                        [src]="'data:image/jpeg;base64,' + document.liveFace"
+                        [zoom]="2.5"
+                        [lensSize]="180">
+                      </app-magnifier>
+                    </div>
+                  </div>
 
-              <div class="col-md-6">
-                <mat-form-field class="example-full-width">
-                  <mat-label>RFID Date d'expiration</mat-label>
-                  <input matInput [value]="document.rfidDateOfExp | date" disabled>
-                </mat-form-field>
-              </div>
-            </div>
+                  <div class="img-box" *ngIf="document.rfidFace">
+                    <h4>RFID</h4>
+                    <div class="fixed-img">
+                      <app-magnifier
+                        [src]="'data:image/jpeg;base64,' + document.rfidFace"
+                        [zoom]="2.5"
+                        [lensSize]="180">
+                      </app-magnifier>
+                    </div>
+                  </div>
+                </div>
+              </mat-expansion-panel>
+            </mat-accordion>
 
-            <div class="row">
-              <div class="col-md-6">
-                <mat-form-field class="example-full-width">
-                  <mat-label>RFID Pays émetteur</mat-label>
-                  <input matInput [value]="document.rfidIssuingCountry" disabled>
-                </mat-form-field>
-              </div>
+            <!-- ⭐ Infos personnelles -->
+            <mat-accordion class="accordion-spacing">
+              <mat-expansion-panel hideToggle expanded>
+                <mat-expansion-panel-header>
+                  <mat-panel-title class="panel-title-custom">
+                    Informations Personnelles
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
 
-              <div class="col-md-6">
-                <mat-form-field class="example-full-width">
-                  <mat-label>RFID Nationalité</mat-label>
-                  <input matInput [value]="document.rfidNationality" disabled>
-                </mat-form-field>
-              </div>
-            </div>
+                <table class="table table-bordered mt-3">
+                  <tbody>
+                    <tr>
+                      <th>Prénom</th><td>{{ document.firstName }}</td>
+                      <th>Nom</th><td>{{ document.lastName }}</td>
+                    </tr>
+                    <tr>
+                      <th>Date de naissance</th><td>{{ document.dateOfBirth | date }}</td>
+                      <th>Genre</th><td>{{ document.gender }}</td>
+                    </tr>
+                    <tr>
+                      <th>Numéro du document</th><td>{{ document.numDocument }}</td>
+                      <th>Date d'expiration</th><td>{{ document.dateOfExp | date }}</td>
+                    </tr>
+                    <tr>
+                      <th>Pays émetteur</th><td>{{ document.issuingCountry }}</td>
+                      <th>Nationalité</th><td>{{ document.nationality }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </mat-expansion-panel>
+            </mat-accordion>
 
-            <div class="row">
-              <div class="col-md-6">
-                <mat-form-field class="example-full-width">
-                  <mat-label>RFID Genre</mat-label>
-                  <input matInput [value]="document.rfidGender" disabled>
-                </mat-form-field>
-              </div>
-            </div>
+            <!-- ⭐ Infos RFID -->
+            <mat-accordion class="accordion-spacing">
+              <mat-expansion-panel hideToggle expanded>
+                <mat-expansion-panel-header>
+                  <mat-panel-title class="panel-title-custom">
+                    Informations RFID
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
 
-            <!-- 🟪 AUTRES IMAGES -->
-            <h5 class="text-danger mt-4">Autres Images</h5>
-
-            <div class="row mt-4">
-
-              <div class="col-md-4" *ngIf="document.frontImage">
-                <h6>Image Frontale</h6>
-                <img class="img-fluid rounded"
-                     [src]="'data:image/jpeg;base64,' + document.frontImage">
-              </div>
-
-              <div class="col-md-4" *ngIf="document.backImage">
-                <h6>Image Arrière</h6>
-                <img class="img-fluid rounded"
-                     [src]="'data:image/jpeg;base64,' + document.backImage">
-              </div>
-            </div>
+                <table class="table table-bordered mt-3">
+                  <tbody>
+                    <tr>
+                      <th>RFID Prénom</th><td>{{ document.rfidFirstName }}</td>
+                      <th>RFID Nom</th><td>{{ document.rfidLastName }}</td>
+                    </tr>
+                    <tr>
+                      <th>RFID Date de naissance</th><td>{{ document.rfidDateOfBirth | date }}</td>
+                      <th>RFID Genre</th><td>{{ document.rfidGender }}</td>
+                    </tr>
+                    <tr>
+                      <th>RFID Numéro du document</th><td>{{ document.rfidNumDocument }}</td>
+                      <th>RFID Date d'expiration</th><td>{{ document.rfidDateOfExp | date }}</td>
+                    </tr>
+                    <tr>
+                      <th>RFID Pays émetteur</th><td>{{ document.rfidIssuingCountry }}</td>
+                      <th>RFID Nationalité</th><td>{{ document.rfidNationality }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </mat-expansion-panel>
+            </mat-accordion>
 
           </div> <!-- END CARD BODY -->
 

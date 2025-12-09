@@ -1,0 +1,12 @@
+/* 📱 Version mobile uniquement */
+@media screen and (max-width: 991px) {
+    .sidebar {
+        position: relative;
+    }
+
+    .logout-btn {
+        position: absolute;
+        bottom: 20px;      /* ajuste comme tu veux */
+        width: 100%;
+    }
+}

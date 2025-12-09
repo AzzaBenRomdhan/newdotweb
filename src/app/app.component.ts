@@ -8,7 +8,7 @@ import { LoginService } from './services/login/login.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  constructor(private loginService:LoginService ){}
+/*   constructor(private loginService:LoginService ){}
 ngOnInit() {
   const token = localStorage.getItem("token");
 
@@ -24,6 +24,6 @@ ngOnInit() {
       }
     });
   }
-}
+} */
 
 }
