@@ -1,29 +1,63 @@
+<div class="dashboard-container">
 
-<div class="main-content">
-  <div class="container-fluid">
-    <div class="container mt-4">
+  <div class="container mt-4">
 
-  <!-- Boxes de stats -->
-  <div class="row mb-4">
-    <div class="col-md-6 mb-2">
-      <div class="card text-center p-3">
-        <h5>Nombre Document Passeport</h5>
-        <h2>{{ passportCount }}</h2>
+    <!-- === Cards des statistiques améliorées === -->
+    <div class="row mb-2 justify-content-center">
+      <!-- Passeports -->
+      <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card stat-card stat-card-passport text-center">
+          <div class="card-body d-flex flex-column align-items-center justify-content-center">
+            <div class="stat-icon mb-3">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><!--!Font Awesome Free v7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M128 128C128 92.7 156.7 64 192 64L448 64C483.3 64 512 92.7 512 128L512 512C512 547.3 483.3 576 448 576L192 576C156.7 576 128 547.3 128 512L128 128zM224 472C224 485.3 234.7 496 248 496L392 496C405.3 496 416 485.3 416 472C416 458.7 405.3 448 392 448L248 448C234.7 448 224 458.7 224 472zM406.6 272C401.8 298.4 385.1 320.7 362.4 333.2C369.1 316.2 373.6 295.2 375 272L406.6 272zM233.5 272L265.1 272C266.5 295.1 271.1 316.2 277.7 333.2C255 320.7 238.3 298.4 233.5 272zM309.9 327C303.7 313.6 298.8 294.5 297.2 272L343 272C341.4 294.5 336.5 313.6 330.3 327C325.8 336.6 322.1 340.8 320.1 342.5C318.1 340.8 314.4 336.7 309.9 327zM309.9 185C314.4 175.4 318.1 171.2 320.1 169.5C322.1 171.2 325.8 175.3 330.3 185C336.5 198.4 341.4 217.5 343 240L297.2 240C298.8 217.5 303.7 198.4 309.9 185zM406.6 240L375 240C373.6 216.9 369 195.8 362.4 178.8C385.1 191.3 401.8 213.6 406.6 240zM265 240L233.4 240C238.2 213.6 254.9 191.3 277.6 178.8C270.9 195.8 266.4 216.8 265 240zM448 256C448 185.3 390.7 128 320 128C249.3 128 192 185.3 192 256C192 326.7 249.3 384 320 384C390.7 384 448 326.7 448 256z"/></svg>
+            </div>
+            <h5 class="stat-label mb-3">Documents Passeport</h5>
+            <h2 class="stat-value">{{ passportCount }}</h2>
+          </div>
+        </div>
+      </div>
+
+      <!-- ID Cards -->
+      <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card stat-card stat-card-id text-center">
+          <div class="card-body d-flex flex-column align-items-center justify-content-center">
+            <div class="stat-icon mb-3">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><!--!Font Awesome Free v7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M32 160C32 124.7 60.7 96 96 96L544 96C579.3 96 608 124.7 608 160L32 160zM32 208L608 208L608 480C608 515.3 579.3 544 544 544L96 544C60.7 544 32 515.3 32 480L32 208zM279.3 480C299.5 480 314.6 460.6 301.7 445C287 427.3 264.8 416 240 416L176 416C151.2 416 129 427.3 114.3 445C101.4 460.6 116.5 480 136.7 480L279.2 480zM208 376C238.9 376 264 350.9 264 320C264 289.1 238.9 264 208 264C177.1 264 152 289.1 152 320C152 350.9 177.1 376 208 376zM392 272C378.7 272 368 282.7 368 296C368 309.3 378.7 320 392 320L504 320C517.3 320 528 309.3 528 296C528 282.7 517.3 272 504 272L392 272zM392 368C378.7 368 368 378.7 368 392C368 405.3 378.7 416 392 416L504 416C517.3 416 528 405.3 528 392C528 378.7 517.3 368 504 368L392 368z"/></svg>            
+            </div>
+            <h5 class="stat-label mb-3">Documents Carte ID</h5>
+            <h2 class="stat-value">{{ idCount }}</h2>
+          </div>
+        </div>
+      </div>
+
+      <!-- Nouvelle carte : Total documents -->
+      <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card stat-card stat-card-total text-center">
+          <div class="card-body d-flex flex-column align-items-center justify-content-center">
+            <div class="stat-icon mb-3">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><!--!Font Awesome Free v7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M296.5 69.2C311.4 62.3 328.6 62.3 343.5 69.2L562.1 170.2C570.6 174.1 576 182.6 576 192C576 201.4 570.6 209.9 562.1 213.8L343.5 314.8C328.6 321.7 311.4 321.7 296.5 314.8L77.9 213.8C69.4 209.8 64 201.3 64 192C64 182.7 69.4 174.1 77.9 170.2L296.5 69.2zM112.1 282.4L276.4 358.3C304.1 371.1 336 371.1 363.7 358.3L528 282.4L562.1 298.2C570.6 302.1 576 310.6 576 320C576 329.4 570.6 337.9 562.1 341.8L343.5 442.8C328.6 449.7 311.4 449.7 296.5 442.8L77.9 341.8C69.4 337.8 64 329.3 64 320C64 310.7 69.4 302.1 77.9 298.2L112 282.4zM77.9 426.2L112 410.4L276.3 486.3C304 499.1 335.9 499.1 363.6 486.3L527.9 410.4L562 426.2C570.5 430.1 575.9 438.6 575.9 448C575.9 457.4 570.5 465.9 562 469.8L343.4 570.8C328.5 577.7 311.3 577.7 296.4 570.8L77.9 469.8C69.4 465.8 64 457.3 64 448C64 438.7 69.4 430.1 77.9 426.2z"/></svg>            
+            </div>
+            <h5 class="stat-label mb-3">Total Documents</h5>
+            <h2 class="stat-value">{{ passportCount + idCount }}</h2>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="col-md-6 mb-2">
-      <div class="card text-center p-3">
-        <h5>Nombre Document Carte ID</h5>
-        <h2>{{ idCount }}</h2>
+
+    <!-- === Graphique amélioré === -->
+    <div class="row justify-content-center">
+      <div class="col-lg-12">
+        <div class="card chart-card">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Évolution des envois par jour</h5>
+          </div>
+          <div class="card-body">
+            <div id="chart" class="ct-chart ct-major-twelfth"></div>
+          </div>
+        </div>
       </div>
     </div>
+
   </div>
 
-  <!-- Graphique évolution -->
-  <div class="card p-3">
-    <h5 class="mb-3">Évolution des envois par jour</h5>
-    <div id="chart" class="ct-chart ct-major-twelfth"></div>
-  </div>
-</div>    
-  </div>
 </div>

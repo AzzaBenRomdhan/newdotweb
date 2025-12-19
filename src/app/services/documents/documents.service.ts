@@ -51,7 +51,7 @@ export interface Document {
   providedIn: 'root'
 })
 export class DocumentService {
-  private baseUrl = 'http://51.178.87.12:8097/documents';
+  private baseUrl = 'http://51.178.87.12:8085/documents';
 
   constructor(private http: HttpClient) {}
 

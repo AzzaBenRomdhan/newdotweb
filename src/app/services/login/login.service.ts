@@ -24,8 +24,8 @@ export interface AuthenticationResponse {
 
 export class LoginService {
   
-   private API_URL = 'http://51.178.87.12:8097/auth';
-   private API_URL_Local = 'http://localhost:8080/auth';
+   private API_URL = 'http://51.178.87.12:8085/auth';
+
 
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -45,6 +45,6 @@ export class LoginService {
   }
 
   getUserPublic(usernameOrId: string): Observable<PublicUserInfo> {
-    return this.http.get<PublicUserInfo>(`${this.API_URL_Local}/public/${usernameOrId}`);
+    return this.http.get<PublicUserInfo>(`${this.API_URL}/public/${usernameOrId}`);
   }
 }

@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { User, UsersService } from 'app/services/users/users.service';
 
@@ -12,6 +12,8 @@ export class EditUserComponent implements OnInit {
   userForm: FormGroup;
   roles = ['MOBILE', 'WEB'];
   statuses = ['Active', 'Inactive'];
+  isLoading = false;
+  errorMessage = '';
 
   constructor(
     private fb: FormBuilder,
@@ -22,7 +24,7 @@ export class EditUserComponent implements OnInit {
 
   ngOnInit() {
     this.userForm = this.fb.group({
-      username: [this.user.username, [this.usernameValidator.bind(this)]],
+      username: [this.user.username],
       nom: [this.user.nom],
       prenom: [this.user.prenom],
       poste: [this.user.poste],
@@ -31,33 +33,47 @@ export class EditUserComponent implements OnInit {
     });
   }
 
-  // Validator conditionnel pour username
-  usernameValidator(control: AbstractControl) {
-    const value = control.value;
-    if (value !== this.user.username && (!value || value.length < 4)) {
-      return { minlength: true };
-    }
-    return null;
-  }
-
   editUser() {
     if (this.userForm.valid) {
-      const updatedUser: User = { ...this.user };
+      this.isLoading = true;
+      this.errorMessage = '';
 
-      // On ne remplace que les champs modifiés
+      // Créer un objet avec seulement les champs modifiés (non vides)
+      const updatedData: any = {};
+      
       Object.keys(this.userForm.value).forEach(key => {
-        if (this.userForm.value[key] !== undefined && this.userForm.value[key] !== null) {
-          updatedUser[key] = this.userForm.value[key];
+        const newValue = this.userForm.value[key];
+        const oldValue = this.user[key];
+        
+        // Ne garder que les champs modifiés ET non vides
+        if (newValue !== oldValue && newValue !== '' && newValue !== null) {
+          updatedData[key] = newValue;
         }
       });
 
-      this.userService.updateUser(updatedUser, this.user.id).subscribe({
-        next: (res) => {
-          console.log('Utilisateur mis à jour', res);
-          this.close(res);
+      // Si aucun champ n'a été modifié, fermer le dialogue
+      if (Object.keys(updatedData).length === 0) {
+        this.close();
+        return;
+      }
+
+      // IMPORTANT: Envoyer seulement les champs à modifier
+      this.userService.updateUser(updatedData, this.user.id).subscribe({
+        next: (updatedUser) => {
+          console.log('Utilisateur mis à jour', updatedUser);
+          
+          // Retourner l'utilisateur mis à jour
+          this.close({
+            ...this.user, // Garder les anciennes données
+            ...updatedData, // Ajouter les nouvelles
+            // Si le backend retourne l'utilisateur complet, utilisez:
+            // ...updatedUser
+          });
         },
         error: (err) => {
           console.error('Erreur lors de la mise à jour', err);
+          this.isLoading = false;
+          this.errorMessage = err.message || 'Erreur lors de la mise à jour';
         }
       });
     }

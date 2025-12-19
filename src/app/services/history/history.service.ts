@@ -17,7 +17,7 @@ export interface UserHistory {
 })
 export class HistoryService {
 
-  private API_URL = 'http://51.178.87.12:8097/history';
+  private API_URL = 'http://51.178.87.12:8085/history';
 
   constructor(private http: HttpClient) {}
 

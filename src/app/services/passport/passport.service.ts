@@ -11,6 +11,7 @@ export interface PassportImagesResponse {
 })
 export class PassportService {
 
+  //private apiUrl =  'http://192.168.1.13:8096/api/passport';
   private apiUrl =  'http://51.178.87.12:8096/api/passport';
 
   constructor(private http: HttpClient) { }
