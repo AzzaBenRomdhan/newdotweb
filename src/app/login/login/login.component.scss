@@ -1,7 +1,66 @@
+/* Background */
 .login-bg {
   height: 100vh;
   background-image: url('/assets/img/terminal-d-aeroport.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+}
+
+/* Card login */
+.login-card {
+  width: 100%;
+  max-width: 620px !important;      /* ⬅️ carte plus large */
+  padding: 10px 0;
+  border-radius: 16px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+}
+
+/* Form */
+.login-form .mat-form-field {
+  margin-bottom: 0px !important;  /* ⬅️ espace réduit */
+}
+
+/* Mat form field outline */
+:host ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+  color: #27325E;
+}
+
+:host ::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+  color: #27325E;
+}
+
+/* Input label & caret */
+:host ::ng-deep .mat-input-element {
+  caret-color: #27325E;
+}
+
+:host ::ng-deep .mat-form-field-label {
+  color: #27325E;
+}
+:host ::ng-deep.mat-form-field-appearance-outline .mat-form-field-wrapper {
+    margin: 0em 0;
+}
+/* Bouton */
+button[color="primary"] {
+  background-color: #27325E !important;
+  border-radius: 8px;
+  padding: 10px;
+  font-weight: 600;
+  text-transform: none;
+}
+
+button[color="primary"]:hover {
+  background-color: #1f2748 !important;
+}
+
+/* Titre */
+.card-title {
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.card-description {
+  margin-bottom: 20px;
+  color: #6c757d;
 }

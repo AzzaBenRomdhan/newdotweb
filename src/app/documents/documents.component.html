@@ -1,234 +1,207 @@
-<div class="main-content position-relative"> 
-    <!-- Overlay loader -->
+<div class="main-content position-relative">
+
+  <!-- 🔄 Loader -->
   <div *ngIf="isLoading" class="overlay-spinner">
-    <mat-spinner diameter="70" strokeWidth="6" color="primary"></mat-spinner>
+    <mat-spinner diameter="70"></mat-spinner>
   </div>
+
   <div class="container-fluid">
 
-    <div class="row">
-      <div class="col-md-12">
-        <div class="card">
-          <div class="card-header card-header-info">
-                <h4 class="card-title">Documents</h4>
-          </div>
-        <div class="card-body">
-            <div class="filters-section">
-              <!-- Première ligne de filtres -->
-              <div class="row mb-0 p-0">
-                <div class="col-12 col-md-6 col-lg-2 px-1 mb-0">
-                  <mat-form-field appearance="outline" class="mb-0">
-                    <mat-label>Date ajout</mat-label>
-                    <input matInput type="date" [(ngModel)]="filters.dateAjout" (ngModelChange)="applyFilter()">
-                  </mat-form-field>
-                </div>
+    <!-- ===================== -->
+    <!-- 🟦 CARD PRINCIPALE -->
+    <!-- ===================== -->
+    <div class="card">
 
-                <div class="col-12 col-md-6 col-lg-2 px-1 mb-0">
-                  <mat-form-field appearance="outline" class="mb-0">
-                    <mat-label>Type document</mat-label>
-                    <mat-select [(ngModel)]="filters.typeDocument" (selectionChange)="applyFilter()">
-                      <mat-option value="P-GROUP">Passeport</mat-option>
-                      <mat-option value="ID">ID carte</mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
+      <div class="card-header card-header-info">
+        <h4 class="card-title mb-0">Documents scannés</h4>
+      </div>
 
-                <div class="col-12 col-md-6 col-lg-2 px-1 mb-0">
-                  <mat-form-field appearance="outline" class="mb-0">
-                    <mat-label>Num document</mat-label>
-                    <input matInput [(ngModel)]="filters.numDocument" (ngModelChange)="applyFilter()">
-                  </mat-form-field>
-                </div>
+      <div class="card-body">
 
-                <div class="col-12 col-md-6 col-lg-2 px-1 mb-0">
-                  <mat-form-field appearance="outline" class="mb-0">
-                    <mat-label>Nature document</mat-label>
-                    <mat-select [(ngModel)]="filters.natureDoc" (selectionChange)="applyFilter()">
-                      <mat-option value="P">Passeport ordinaire</mat-option>
-                      <mat-option value="PS">Passeport de service</mat-option>
-                      <mat-option value="PD">Passeport diplomatique</mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
+        <!-- ===================== -->
+        <!-- 🔍 FILTRES -->
+        <!-- ===================== -->
+        <div class="filter-card mb-2">
+          <div class="card-body">
 
-                <div class="col-12 col-md-6 col-lg-2 px-1 mb-0">
-                  <mat-form-field appearance="outline" class="mb-0">
-                    <mat-label>Poste</mat-label>
-                    <input matInput [(ngModel)]="filters.poste" (ngModelChange)="applyFilter()">
-                  </mat-form-field>
-                </div>
 
-                <div class="col-12 col-md-6 col-lg-2 px-1 mb-0">
-                  <mat-form-field appearance="outline" class="w-100 mb-0">
-                    <mat-label>Pays émetteur</mat-label>
-                    <input matInput [(ngModel)]="filters.issuingCountry" (ngModelChange)="applyFilter()">
-                  </mat-form-field>
-                </div>
+            <!-- Ligne 1 -->
+            <div class="row g-2">
+              <div class="col-lg-2 col-md-4 col-sm-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Date ajout</mat-label>
+                  <input matInput type="date" [(ngModel)]="filters.dateAjout" (ngModelChange)="applyFilter()">
+                </mat-form-field>
               </div>
 
-              <!-- Deuxième ligne de filtres -->
-              <div class="row align-items-center mt-0 pt-0">
-                <div class="col-12 col-md-6 col-lg-2 px-1 mb-0">
-                  <mat-form-field appearance="outline" class="w-100 mb-0">
-                    <mat-label>Ajouté par</mat-label>
-                    <input matInput [(ngModel)]="filters.username" (ngModelChange)="applyFilter()">
-                  </mat-form-field>
-                </div>
+              <div class="col-lg-2 col-md-4 col-sm-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Type document</mat-label>
+                  <mat-select [(ngModel)]="filters.typeDocument" (selectionChange)="applyFilter()">
+                    <mat-option value="P-GROUP">Passeport</mat-option>
+                    <mat-option value="ID">ID carte</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
 
-                <div class="col-12 col-md-6 col-lg-2 px-1 mb-0">
-                  <mat-form-field appearance="outline" class="w-100 mb-0">
-                    <mat-label>Nationalité</mat-label>
-                    <input matInput [(ngModel)]="filters.nationality" (ngModelChange)="applyFilter()">
-                  </mat-form-field>
-                </div>
+              <div class="col-lg-2 col-md-4 col-sm-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>N° document</mat-label>
+                  <input matInput [(ngModel)]="filters.numDocument" (ngModelChange)="applyFilter()">
+                </mat-form-field>
+              </div>
 
-                <div class="col-12 col-md-1 mb-0">
-                  <button mat-raised-button color="primary" (click)="resetFilters()" class="mb-0">
-                    <i class="material-icons me-1">refresh</i>
-                  </button>
-                </div>
+              <div class="col-lg-2 col-md-4 col-sm-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Nature</mat-label>
+                  <mat-select [(ngModel)]="filters.natureDoc" (selectionChange)="applyFilter()">
+                    <mat-option value="P">Ordinaire</mat-option>
+                    <mat-option value="PS">Service</mat-option>
+                    <mat-option value="PD">Diplomatique</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
 
-                <div class="col-12 col-md-2 mb-0"></div>
+              <div class="col-lg-2 col-md-4 col-sm-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Pays</mat-label>
+                  <input matInput [(ngModel)]="filters.issuingCountry" (ngModelChange)="applyFilter()">
+                </mat-form-field>
+              </div>
 
-                <div class="col-12 col-md-5 px-1 mb-0">
-                  <mat-form-field appearance="outline" class="w-100 mb-0">
-                    <mat-label>Recherche globale</mat-label>
-                    <input matInput [(ngModel)]="globalSearch" (ngModelChange)="applyFilter()">
-                    <button matSuffix mat-icon-button>
-                      <i class="material-icons">search</i>
-                    </button>
-                  </mat-form-field>
-                </div>
+              <div class="col-lg-2 col-md-4 col-sm-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Poste</mat-label>
+                  <input matInput [(ngModel)]="filters.poste" (ngModelChange)="applyFilter()">
+                </mat-form-field>
               </div>
             </div>
-            <!-- ⚡ Contenu principal seulement si les données sont chargées -->
-            <div *ngIf="!isLoading" class="row">
-              <!-- 🟩 Tableau -->
-              <div class="col-md-12 col-lg-12">
-                <div class="table-container">
 
-                  <div class="table-responsive">
-                    <table class="table table-hover">
+            <!-- Ligne 2 -->            
+            <div class="row g-2 mt-2 align-items-center">
 
-                      <thead class="table-primary text-dark">
-                        <tr>
-                          <th>Date</th>
-                          <th>Heure</th>
-                          <th (click)="sortBy('typeDocument')" class="sortable">
-                            Type doc
-                            <i class="material-icons" *ngIf="sortField==='typeDocument'">
-                              {{ sortDirection==='asc' ? 'arrow_upward' : 'arrow_downward' }}
-                            </i>
-                          </th>
-                          <th>Nature</th>
-                          <th (click)="sortBy('numDocument')" class="sortable">
-                            N° doc
-                            <i class="material-icons" *ngIf="sortField==='numDocument'">
-                              {{ sortDirection==='asc' ? 'arrow_upward' : 'arrow_downward' }}
-                            </i>
-                          </th>
-                          <th (click)="sortBy('issuingCountry')" class="sortable">
-                            Pays
-                            <i class="material-icons" *ngIf="sortField==='issuingCountry'">
-                              {{ sortDirection==='asc' ? 'arrow_upward' : 'arrow_downward' }}
-                            </i>
-                          </th>
-                          <th>Rfid</th>
-                          <th (click)="sortBy('lastName')" class="sortable">
-                            Nom
-                            <i class="material-icons" *ngIf="sortField==='lastName'">
-                              {{ sortDirection==='asc' ? 'arrow_upward' : 'arrow_downward' }}
-                            </i>
-                          </th>
-                          <th (click)="sortBy('firstName')" class="sortable">
-                            Prénom
-                            <i class="material-icons" *ngIf="sortField==='firstName'">
-                              {{ sortDirection==='asc' ? 'arrow_upward' : 'arrow_downward' }}
-                            </i>
-                          </th>
-                          <th>Nationalité</th>
-                          <th>Genre</th>
-                          <th>Poste</th>
-                          <th>Actions</th>
-                        </tr>
-                      </thead>
+              <div class="col-lg-3 col-md-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Ajouté par</mat-label>
+                  <input matInput [(ngModel)]="filters.username" (ngModelChange)="applyFilter()">
+                </mat-form-field>
+              </div>
 
-                      <tbody>
+              <div class="col-lg-3 col-md-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Nationalité</mat-label>
+                  <input matInput [(ngModel)]="filters.nationality" (ngModelChange)="applyFilter()">
+                </mat-form-field>
+              </div>
 
-                        <tr *ngFor="let doc of pagedDocuments">
-                          <td>{{ doc.dateAjout }}</td>
-                          <td>{{ doc.heureAjout }}</td>
-                          <td>
-                            {{ 
-                              (doc.typeDoc === 'P' || doc.typeDoc === 'PD' || doc.typeDoc === 'PS') ? 'Passeport' :
-                              (doc.typeDoc === 'ID') ? 'ID carte' :
-                              doc.typeDoc 
-                            }}
-                          </td>
-                          <td>{{doc.natureDoc}}</td>
-                          <td>{{ doc.numDocument }}</td>
-                          <td>{{ doc.issuingCountry }}</td>
-                          <td>
-                            <ng-container *ngIf="doc.rfid; else noRfid">
-                              <!-- Si doc.rfid est true -->
-                              <mat-icon style="color: #4caf50 !important;">check_circle</mat-icon>
-                            </ng-container>
-                            <ng-template #noRfid>
-                              <!-- Si doc.rfid est false -->
-                              <mat-icon color="warn">cancel</mat-icon>
-                            </ng-template>
-                          </td>
-                          <td>{{ doc.lastName }}</td>
-                          <td>{{ doc.firstName }}</td>
-                          <td>{{ doc.nationality }}</td>
-                          <td>{{ doc.gender }}</td>
-                          <td>{{doc.poste}}</td>
-                          <td>
-                            <button mat-raised-button color="primary" class="btn btn-dark btn-link btn-sm btn-just-icon" (click)="voirDetails(doc)">
-                              <i class="material-icons">visibility</i>
-                            </button>
+              <!-- 🔍 Recherche globale -->
+              <div class="col-lg-4 col-md-8">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Recherche globale</mat-label>
+                  <input matInput [(ngModel)]="globalSearch" (ngModelChange)="applyFilter()">
+                  <mat-icon matSuffix>search</mat-icon>
+                </mat-form-field>
+              </div>
 
-                             <button mat-raised-button type="button" matTooltip="Supprimer" [matTooltipPosition]="'above'" class="btn btn-danger btn-link btn-sm btn-just-icon" (click)="deleteDoc(doc.id)">
-                              <i class="material-icons">close</i>
-                            </button>
+              <!-- 🔄 Bouton Réinitialiser -->
+              <div class="col-lg-2 col-md-4 d-flex justify-content-end">
+                <button
+                  mat-stroked-button
+                  color="primary"
+                  (click)="resetFilters()"
+                  class="W-100">
+                  <mat-icon>refresh</mat-icon> Réinitialiser
+                </button>
+              </div>
 
-                            <button mat-raised-button type="button" matTooltip="Ouvrir le PDF" [matTooltipPosition]="'above'" class="btn btn-success btn-link btn-sm btn-just-icon" (click)="downloadPdf(doc)">
-                              <i class="material-icons">picture_as_pdf</i>
-                            </button>
-                          </td>
-                        </tr>
+            </div>
 
-                        <tr *ngIf="filteredDocuments.length === 0">
-                          <td colspan="13" class="text-center py-4">
-                            <i class="material-icons display-4 text-muted mb-2">search_off</i>
-                            <p class="text-muted">Aucun document trouvé</p>
-                            <button mat-raised-button color="primary" (click)="resetFilters()">
-                              Réinitialiser les filtres
-                            </button>
-                          </td>
-                        </tr>
 
-                      </tbody>
-
-                    </table>
-                  </div>
-
-                  <!-- 🟧 Pagination -->
-                  <mat-paginator
-                    [length]="filteredDocuments.length"
-                    [pageSize]="pageSize"
-                    [pageSizeOptions]="[5, 10, 20, 50]"
-                    (page)="onPageChange($event)">
-                  </mat-paginator>
-
-                </div>
-              </div> 
-
-            </div> <!-- fin contenu principal -->
-
-          </div> <!-- fin card-body -->
-
+          </div>
         </div>
+
+        <!-- ===================== -->
+        <!-- 📊 TABLEAU -->
+        <!-- ===================== -->
+        <div class="table-responsive" *ngIf="!isLoading">
+          <table class="table table-hover modern-table">
+
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Heure</th>
+                <th>Type</th>
+                <th>Nature</th>
+                <th>N° Doc</th>
+                <th>Pays</th>
+                <th>RFID</th>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Nationalité</th>
+                <th>Genre</th>
+                <th>Poste</th>
+                <th class="text-center">Actions</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              <tr *ngFor="let doc of pagedDocuments">
+                <td>{{ doc.dateAjout }}</td>
+                <td>{{ doc.heureAjout }}</td>
+                <td>{{ doc.typeDoc }}</td>
+                <td>{{ doc.natureDoc }}</td>
+                <td>{{ doc.numDocument }}</td>
+                <td>{{ doc.issuingCountry }}</td>
+
+                <td>
+                  <mat-icon *ngIf="doc.rfid" style="color: #4caf50">check_circle</mat-icon>
+                  <mat-icon *ngIf="!doc.rfid" color="warn">cancel</mat-icon>
+                </td>
+
+                <td>{{ doc.lastName }}</td>
+                <td>{{ doc.firstName }}</td>
+                <td>{{ doc.nationality }}</td>
+                <td>{{ doc.gender }}</td>
+                <td>{{ doc.poste }}</td>
+
+                <td class="text-center">
+                  <button mat-icon-button color="primary" (click)="voirDetails(doc)">
+                    <mat-icon>visibility</mat-icon>
+                  </button>
+
+                  <button mat-icon-button color="warn" (click)="deleteDoc(doc.id)">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+
+                  <button mat-icon-button color="accent" (click)="downloadPdf(doc)">
+                    <mat-icon>picture_as_pdf</mat-icon>
+                  </button>
+                </td>
+              </tr>
+
+              <!-- Aucun résultat -->
+              <tr *ngIf="filteredDocuments.length === 0">
+                <td colspan="13" class="text-center py-4 text-muted">
+                  <mat-icon class="mb-2">search_off</mat-icon><br>
+                  Aucun document trouvé
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination -->
+        <mat-paginator
+          [length]="filteredDocuments.length"
+          [pageSize]="pageSize"
+          [pageSizeOptions]="[5,10,20,50]"
+          (page)="onPageChange($event)">
+        </mat-paginator>
+
       </div>
     </div>
+
   </div>
 </div>

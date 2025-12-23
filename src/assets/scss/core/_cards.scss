@@ -175,7 +175,7 @@
     &.bg-info,
     &.card-rotate.bg-info .front,
     &.card-rotate.bg-info .back{
-      background: linear-gradient(60deg, $cyan-400, $cyan-600);
+      background: linear-gradient(60deg,   lighten(#27325E, 15%),  darken(#27325E, 15%));
     }
     .card-header-success .card-icon,
     .card-header-success .card-text,
@@ -240,7 +240,7 @@
     .card-header-info .card-icon,
     .card-header-info:not(.card-header-icon):not(.card-header-text),
     .card-header-info .card-text{
-        @include shadow-big-color($brand-info);
+        @include shadow-big-color(#27325E);
     }
 
     .card-header-success .card-icon,

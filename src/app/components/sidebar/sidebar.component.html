@@ -7,11 +7,8 @@
     </a>
 </div>
 <div class="sidebar-wrapper">
-
     <ul class="nav">
-
-        <!-- Routes dynamiques -->
-        <li routerLinkActive="active"
+      <li routerLinkActive="active"
             *ngFor="let menuItem of menuItems"
             class="{{menuItem.class}} nav-item">
             <a class="nav-link" [routerLink]="[menuItem.path]">
@@ -20,27 +17,23 @@
             </a>
         </li>
 
-<!-- Username + Logout en mobile -->
-<li class="nav-item logout-btn" *ngIf="isMobile">
-  <a class="nav-link">
-    <i class="material-icons">person</i>
-    <p>{{ username }}</p>
-  </a>
-  <a class="nav-link" (click)="logout()">
-    <i class="material-icons">logout</i>
-    <p>Déconnexion</p>
-  </a>
-</li>
+        <li class="nav-item logout-btn" *ngIf="isMobile">
+          <a class="nav-link">
+            <i class="material-icons">person</i>
+            <p>{{ username }}</p>
+          </a>
+          <a class="nav-link" (click)="logout()">
+            <i class="material-icons">logout</i>
+            <p>Déconnexion</p>
+          </a>
+        </li>
 
-<!-- Desktop : username fixe en bas -->
-<li class="nav-item active-pro" *ngIf="!isMobile">
-  <a class="nav-link">
-    <i class="material-icons">person</i>
-    <p>{{ username }}</p>
-  </a>
-</li>
-
-
+        <li class="nav-item active-pro" *ngIf="!isMobile">
+          <a class="nav-link">
+            <i class="material-icons">person</i>
+            <p>{{ username }}</p>
+          </a>
+        </li>
     </ul>
 
 </div>

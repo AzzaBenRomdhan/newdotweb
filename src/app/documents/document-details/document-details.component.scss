@@ -42,7 +42,7 @@
   height: 0;
   padding-bottom: 75%; /* carré parfait */
   position: relative;
-  overflow: hidden;
+  overflow: visible !important;
   border: 1px solid #ccc;
   border-radius: 8px;
   background: #f9f9f9;
@@ -95,7 +95,7 @@
   height: 0;
   padding-bottom: 130%; /* carré parfait */
   position: relative;
-  overflow: hidden;
+  overflow: visible !important;
   border: 1px solid #ccc;
   border-radius: 8px;
   background: #f9f9f9;

@@ -3,7 +3,7 @@
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-md-4">
-        <div class="card card-profile">
+        <div class="card card-profile login-card">
           <div class="card-avatar text-center">
             <img class="img" src="./assets/img/identification-card.png" />
           </div>
@@ -12,10 +12,10 @@
             <p class="card-description text-center">
               Bienvenue sur votre espace !
             </p> 
-            <form>
+            <form class="login-form">
               <div class="row">
                 <div class="col-md-12">
-                  <mat-form-field class="example-full-width">
+                  <mat-form-field class="example-full-width" appearance="outline">
                     <input matInput placeholder="Nom d'utilisateur" [(ngModel)]="username" type="text">
                   </mat-form-field>
                 </div>
@@ -23,7 +23,7 @@
 
               <div class="row">
                 <div class="col-md-12">
-                  <mat-form-field class="example-full-width">
+                  <mat-form-field class="example-full-width" appearance="outline">
                     <input matInput 
                            [type]="hidePassword ? 'password' : 'text'" 
                            placeholder="Mot de passe" 

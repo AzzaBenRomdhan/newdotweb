@@ -12,7 +12,7 @@
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.65);
   backdrop-filter: blur(4px);
   z-index: 0;
 }
@@ -59,7 +59,7 @@
 
 /* Couleurs spécifiques pour chaque carte */
 .stat-card-passport {
-  border-top-color: #3498db;
+  border-top-color: #27325e;
 }
 
 .stat-card-id {
@@ -67,7 +67,7 @@
 }
 
 .stat-card-total {
-  border-top-color: #9b59b6;
+  border-top-color: #3B82F6;
 }
 
 /* Icônes des cartes */
@@ -89,7 +89,7 @@
 
 .stat-card-passport .stat-icon {
   background: linear-gradient(135deg, rgba(52, 152, 219, 0.15), rgba(52, 152, 219, 0.25));
-  color: #3498db;
+  color: #27325e;
 }
 
 .stat-card-id .stat-icon {
@@ -98,9 +98,14 @@
 }
 
 .stat-card-total .stat-icon {
-  background: linear-gradient(135deg, rgba(155, 89, 182, 0.15), rgba(155, 89, 182, 0.25));
-  color: #9b59b6;
+  background: linear-gradient(
+    135deg,
+    rgba(59, 130, 246, 0.15),
+    rgba(59, 130, 246, 0.25)
+  );
+  color: #3B82F6;
 }
+
 
 /* Contenu des cartes stats */
 .stat-label {
@@ -257,4 +262,20 @@
 .chart-card {
   animation: fadeInUp 0.6s ease-out 0.4s forwards;
   opacity: 0;
+}
+
+:host ::ng-deep .ct-chart .ct-series-a .ct-slice-pie,
+:host ::ng-deep .ct-chart .ct-series-a .ct-slice-donut-solid,
+:host ::ng-deep .ct-chart .ct-series-a .ct-area {
+  fill: #3B82F6;
+}
+
+:host ::ng-deep .ct-chart .ct-series-a .ct-point,
+:host ::ng-deep .ct-chart .ct-series-a .ct-line,
+:host ::ng-deep .ct-chart .ct-series-a .ct-bar,
+:host ::ng-deep .ct-chart .ct-series-a .ct-slice-donut,
+:host ::ng-deep .ct-chart .ct-series-a .ct-slice-pie,
+:host ::ng-deep .ct-chart .ct-series-a .ct-slice-donut-solid,
+:host ::ng-deep .ct-chart .ct-series-a .ct-area {
+  stroke: #3B82F6;
 }

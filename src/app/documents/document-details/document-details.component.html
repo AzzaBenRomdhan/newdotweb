@@ -47,55 +47,66 @@
               </table>
             </div>
           <!-- == IMAGES DU PASSEPORT == -->
-          <mat-accordion class="accordion-spacing"
-            *ngIf="document.typeDoc === 'P' || document.typeDoc === 'PS' || document.typeDoc === 'PD'">
-            <mat-expansion-panel hideToggle expanded (opened)="isPassportOpen = true" (closed)="isPassportOpen = false">
-              <mat-expansion-panel-header [class.header-open]="isPassportOpen" [class.header-closed]="!isPassportOpen">
-                <mat-panel-title class="panel-title-custom">
-                  Images du passeport
-                </mat-panel-title>
-              </mat-expansion-panel-header>
+         <mat-accordion class="accordion-spacing"
+  *ngIf="document?.typeDoc === 'P' || document?.typeDoc === 'PS' || document?.typeDoc === 'PD'">
 
-              <div class="passport-images-container">
-                <!-- Document -->
-                <div class="passport-image-wrapper" *ngIf="passportImages.passportImageUrl">
-                  <h4>Photo du document</h4>
-                  <div class="passport-img-box passport-img">
-                    <app-magnifier
-                      [src]="'data:image/jpeg;base64,' + document.visiblePasseport"
-                      [zoom]="2.5"
-                      [lensSize]="180">
-                    </app-magnifier>
-                  </div>
-                </div>
+  <mat-expansion-panel hideToggle expanded
+    (opened)="isPassportOpen = true"
+    (closed)="isPassportOpen = false">
 
-                <!-- Spécimen -->
-                <div class="passport-image-wrapper" *ngIf="passportImages.passportImageUrl">
-                  <h4>Spécimen du passeport</h4>
-                  <div class="passport-img-box passport-img">
-                    <app-magnifier
-                      [src]="passportImages.passportImageUrl"
-                      [zoom]="2.5"
-                      [lensSize]="180">
-                    </app-magnifier>
-                  </div>
-                </div>
+    <mat-expansion-panel-header
+      [class.header-open]="isPassportOpen"
+      [class.header-closed]="!isPassportOpen">
 
-                <!-- UV -->
-                <div class="passport-image-wrapper" *ngIf="passportImages.uvImageUrl">
-                  <h4>Spécimen image UV</h4>
-                  <div class="passport-img-box passport-img">
-                    <app-magnifier
-                      [src]="passportImages.uvImageUrl"
-                      [zoom]="2.5"
-                      [lensSize]="180">
-                    </app-magnifier>
-                  </div>
-                </div>
-              </div>
+      <mat-panel-title class="panel-title-custom">
+        Images du passeport
+      </mat-panel-title>
 
-            </mat-expansion-panel>
-          </mat-accordion>
+    </mat-expansion-panel-header>
+
+    <div class="passport-images-container">
+
+      <!-- ✅ Photo du document (BDD) -->
+      <div class="passport-image-wrapper" *ngIf="document?.visiblePasseport">
+        <h4>Photo du document</h4>
+        <div class="passport-img-box passport-img">
+          <app-magnifier
+            [src]="'data:image/jpeg;base64,' + document.visiblePasseport"
+            [zoom]="2.5"
+            [lensSize]="180">
+          </app-magnifier>
+        </div>
+      </div>
+
+      <!-- ✅ Spécimen passeport (API) -->
+      <div class="passport-image-wrapper" *ngIf="passportImages?.passportImageUrl">
+        <h4>Spécimen du passeport</h4>
+        <div class="passport-img-box passport-img">
+          <app-magnifier
+            [src]="passportImages.passportImageUrl"
+            [zoom]="2.5"
+            [lensSize]="180">
+          </app-magnifier>
+        </div>
+      </div>
+
+      <!-- ✅ Image UV (optionnelle) -->
+      <div class="passport-image-wrapper" *ngIf="passportImages?.uvImageUrl">
+        <h4>Spécimen image UV</h4>
+        <div class="passport-img-box passport-img">
+          <app-magnifier
+            [src]="passportImages.uvImageUrl"
+            [zoom]="2.5"
+            [lensSize]="180">
+          </app-magnifier>
+        </div>
+      </div>
+
+    </div>
+
+  </mat-expansion-panel>
+</mat-accordion>
+
 
             <!-- ⭐ ID Card Images -->
             <mat-accordion class="accordion-spacing" *ngIf="document.frontImage && document.backImage">

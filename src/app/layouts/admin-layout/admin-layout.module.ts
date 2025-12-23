@@ -56,7 +56,8 @@ import { NgApexchartsModule } from 'ng-apexcharts';
     MatIconModule,
     MatChipsModule,
     NgChartsModule,
-NgApexchartsModule
+NgApexchartsModule,
+
   ],
   declarations: [
     DashboardComponent,

@@ -307,7 +307,7 @@
         @include set-background-color-button($brand-primary);
     }
     &[data-color="azure"]{
-        @include set-background-color-button($brand-info);
+        @include set-background-color-button(#27325e);
     }
     &[data-color="green"]{
         @include set-background-color-button($brand-success);
