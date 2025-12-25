@@ -46,66 +46,72 @@
                 </tr>
               </table>
             </div>
-          <!-- == IMAGES DU PASSEPORT == -->
-         <mat-accordion class="accordion-spacing"
-  *ngIf="document?.typeDoc === 'P' || document?.typeDoc === 'PS' || document?.typeDoc === 'PD'">
+            <!-- ================= PASSEPORT ================= -->
+            <mat-accordion class="accordion-spacing"
+              *ngIf="document?.typeDoc === 'P' || document?.typeDoc === 'PS' || document?.typeDoc === 'PD'">
 
-  <mat-expansion-panel hideToggle expanded
-    (opened)="isPassportOpen = true"
-    (closed)="isPassportOpen = false">
+              <mat-expansion-panel hideToggle expanded
+                (opened)="isPassportOpen = true"
+                (closed)="isPassportOpen = false">
 
-    <mat-expansion-panel-header
-      [class.header-open]="isPassportOpen"
-      [class.header-closed]="!isPassportOpen">
+                <mat-expansion-panel-header
+                  [class.header-open]="isPassportOpen"
+                  [class.header-closed]="!isPassportOpen">
 
-      <mat-panel-title class="panel-title-custom">
-        Images du passeport
-      </mat-panel-title>
+                  <mat-panel-title class="panel-title-custom">
+                    Images du passeport
+                  </mat-panel-title>
 
-    </mat-expansion-panel-header>
+                </mat-expansion-panel-header>
 
-    <div class="passport-images-container">
+                <div class="passport-images-container">
 
-      <!-- ✅ Photo du document (BDD) -->
-      <div class="passport-image-wrapper" *ngIf="document?.visiblePasseport">
-        <h4>Photo du document</h4>
-        <div class="passport-img-box passport-img">
-          <app-magnifier
-            [src]="'data:image/jpeg;base64,' + document.visiblePasseport"
-            [zoom]="2.5"
-            [lensSize]="180">
-          </app-magnifier>
-        </div>
-      </div>
+                  <!-- 📌 Photo document (BDD - base64) -->
+                  <div class="passport-image-wrapper" *ngIf="document?.visiblePasseport">
+                    <h4>Photo du document</h4>
+                    <div class="passport-img-box passport-img">
+                      <app-magnifier
+                        [src]="'data:image/jpeg;base64,' + document.visiblePasseport"
+                        [zoom]="2.5"
+                        [lensSize]="180">
+                      </app-magnifier>
+                    </div>
+                  </div>
 
-      <!-- ✅ Spécimen passeport (API) -->
-      <div class="passport-image-wrapper" *ngIf="passportImages?.passportImageUrl">
-        <h4>Spécimen du passeport</h4>
-        <div class="passport-img-box passport-img">
-          <app-magnifier
-            [src]="passportImages.passportImageUrl"
-            [zoom]="2.5"
-            [lensSize]="180">
-          </app-magnifier>
-        </div>
-      </div>
+                  <!-- 📌 Spécimen principal (URL) -->
+                  <div class="passport-image-wrapper" *ngIf="passportImages?.passportImage">
+                    <h4>
+                      Spécimen (
+                      <b>
+                        Modèle:
+                        {{ passportImages?.passport_model ? passportImages.passport_model : 'Non disponible' }}
+                      </b>
+                      )
+                    </h4>
+                    <div class="passport-img-box passport-img">
+                      <app-magnifier
+                        [src]="passportImages.passportImage"
+                        [zoom]="2.5"
+                        [lensSize]="180">
+                      </app-magnifier>
+                    </div>
+                  </div>
 
-      <!-- ✅ Image UV (optionnelle) -->
-      <div class="passport-image-wrapper" *ngIf="passportImages?.uvImageUrl">
-        <h4>Spécimen image UV</h4>
-        <div class="passport-img-box passport-img">
-          <app-magnifier
-            [src]="passportImages.uvImageUrl"
-            [zoom]="2.5"
-            [lensSize]="180">
-          </app-magnifier>
-        </div>
-      </div>
+                  <!-- 📌 Image UV -->
+                  <div class="passport-image-wrapper" *ngIf="passportImages?.uvImage">
+                    <h4>Image UV ( <b>Modèle: {{passportImages?.passport_model ? passportImages.passport_model : 'Non disponible'}}</b> )</h4>
+                    <div class="passport-img-box passport-img">
+                      <app-magnifier
+                        [src]="passportImages.uvImage"
+                        [zoom]="2.5"
+                        [lensSize]="180">
+                      </app-magnifier>
+                    </div>
+                  </div>
 
-    </div>
-
-  </mat-expansion-panel>
-</mat-accordion>
+                </div>
+              </mat-expansion-panel>
+            </mat-accordion>
 
 
             <!-- ⭐ ID Card Images -->

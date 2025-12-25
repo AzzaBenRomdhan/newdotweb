@@ -10,19 +10,15 @@ import { PassportService, PassportImagesResponse } from 'app/services/passport/p
 })
 export class DocumentDetailsComponent implements OnInit, OnDestroy {
 
-  numDocument!: string;
+ numDocument!: string;
   document!: Document & any;
 
-  loading = true;
   isLoading = true;
   errorMessage = '';
 
-  // 👉 TOUJOURS initialisé
-  passportImages: {
-    passportImageUrl?: string;
-    uvImageUrl?: string;
-  } = {};
+  passportImages: PassportImagesResponse = {};
 
+  // UI state
   isPassportOpen = true;
   isIdCardOpen = true;
   isFaceOpen = true;
@@ -40,7 +36,7 @@ export class DocumentDetailsComponent implements OnInit, OnDestroy {
     const numDoc = this.route.snapshot.paramMap.get('numDocument');
     if (!numDoc) {
       this.errorMessage = 'Numéro de document manquant';
-      this.loading = false;
+      this.isLoading = false;
       return;
     }
 
@@ -49,104 +45,41 @@ export class DocumentDetailsComponent implements OnInit, OnDestroy {
     this.documentService.getDocumentByNum(this.numDocument).subscribe({
       next: (data) => {
         this.document = data;
-        this.convertBlobsToUrls();
 
-        if (this.document.issuingCountry && this.document.typeDoc) {
+        if (this.document?.issuingCountry && this.document?.typeDoc) {
           this.loadPassportImages(
             this.document.issuingCountry,
             this.document.typeDoc
           );
         }
 
-        this.loading = false;
         this.isLoading = false;
       },
       error: (err) => {
-        this.errorMessage = 'Erreur lors du chargement du document';
         console.error(err);
-        this.loading = false;
+        this.errorMessage = 'Erreur lors du chargement du document';
         this.isLoading = false;
       }
     });
   }
 
-  /** Charger images passeport (fonctionne même sans UV) */
   private loadPassportImages(countryCode: string, passportType: string): void {
     this.passportService.getPassportImages(countryCode, passportType).subscribe({
-      next: async (res: PassportImagesResponse) => {
-
-        if (res.passportImage) {
-          const blob = this.base64ToBlob(res.passportImage);
-          this.passportImages.passportImageUrl =
-            await this.blobToDataURL(blob);
-        }
-
-        if (res.uvImage) {
-          const blob = this.base64ToBlob(res.uvImage);
-          this.passportImages.uvImageUrl =
-            await this.blobToDataURL(blob);
-        }
+      next: (res) => {
+        this.passportImages = res; // 🔥 DIRECT
       },
-      error: () => {
+      error: (err) => {
+        console.error(err);
         this.errorMessage = 'Impossible de charger les images du passeport';
       }
     });
   }
 
-  /** Convertir les images du document */
-  private convertBlobsToUrls(): void {
-    const fields = [
-      'visiblePasseport',
-      'frontImage',
-      'backImage',
-      'face',
-      'liveFace',
-      'rfidFace'
-    ];
-
-    fields.forEach(field => {
-      if (this.document?.[field]) {
-        if (this.isBase64(this.document[field])) {
-          this.document[field + 'Url'] =
-            'data:image/jpeg;base64,' + this.document[field];
-        }
-      }
-    });
-  }
-
-  private isBase64(str: string): boolean {
-    try {
-      return btoa(atob(str)) === str;
-    } catch {
-      return false;
-    }
-  }
-
-  private base64ToBlob(base64: string, contentType = 'image/jpeg'): Blob {
-    const byteCharacters = atob(base64);
-    const byteNumbers = new Array(byteCharacters.length);
-
-    for (let i = 0; i < byteCharacters.length; i++) {
-      byteNumbers[i] = byteCharacters.charCodeAt(i);
-    }
-
-    return new Blob([new Uint8Array(byteNumbers)], { type: contentType });
-  }
-
-  private blobToDataURL(blob: Blob): Promise<string> {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result as string);
-      reader.onerror = reject;
-      reader.readAsDataURL(blob);
-    });
-  }
-
-  ngOnDestroy(): void {}
-
   goBack(): void {
     this.router.navigate(['/documents']);
   }
+
+  ngOnDestroy(): void {}  
 }
 
 
